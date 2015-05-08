@@ -1,0 +1,132 @@
+<div data-role="page" id="page_formClientes">
+    <div data-role="header" data-position="fixed">
+        <a href="#" id="btn_cancelar_pageFormClientes" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" data-rel="back">Cancelar</a>
+        <h1></h1>
+        <a href="#" id="btn_salvar_pageFormClientes" class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-check" data-rel="back">Salvar</a>
+    </div>
+    <div data-role="main">
+        <form id="formulario_pageFormClientes">
+            <div class="ui-body">
+                <input type="hidden" name="id">
+                <label for="pessoa">Tipo da pessoa</label>
+                <select name="pessoa">
+                    <option value="pj">Pessoa Jurídica</option>
+                    <option value="pf">Pessoa Física</option>
+                </select>
+                <label for="nome">Nome do cliente</label>
+                <input type="text" name="nome">
+                <label for="documento">CNPJ/CPF</label>
+                <input type="text" name="documento">
+                <label for="telefone">Telefone</label>
+                <input type="text" name="telefone">
+                <label for="endereco">Endereço</label>
+                <input type="text" name="endereco">
+                <label for="bairro">Bairro</label>
+                <input type="text" name="bairro">
+                <label for="cidade">Cidade</label>
+                <input type="text" name="cidade">
+                <label for="estado">Estado</label>
+                <input type="text" name="estado">
+                <label for="cep">CEP</label>
+                <input type="text" name="cep">
+                <label for="observacao">Observação</label>
+                <textarea cols="40" rows="10" name="observacao"></textarea>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div data-role="page" id="page_formProdutos">
+    <div data-role="header" data-position="fixed">
+        <a href="#" id="btn_cancelar_pageFormProdutos" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete" data-rel="back">Cancelar</a>
+        <h1></h1>
+        <a href="#" id="btn_salvar_pageFormProdutos" class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-check" data-rel="back">Salvar</a>
+    </div>
+    <div data-role="main">
+        <form id="formulario_pageFormProdutos">
+            <div class="ui-body">
+                <input type="hidden" name="id">
+                <label for="produto">Produto</label>
+                <input type="text" name="produto">
+                <label for="valor_venda">Valor de Venda</label>
+                <input type="text" name="valor_venda">
+                <label for="estoque">Estoque</label>
+                <input type="text" name="estoque">
+                <label for="observacao">Observação</label>
+                <textarea cols="40" rows="10" name="observacao"></textarea>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div data-role="page" id="page_formPedidos">
+    <div data-role="header" data-position="fixed">
+        <a href="#paginaPrincipal" id="btn_cancelar_pageFormPedidos" class="ui-btn-left ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete">Cancelar</a>
+        <h1></h1>
+        <a href="#paginaPrincipal" id="btn_salvar_pageFormPedidos" class="ui-btn-right ui-btn ui-btn-b ui-mini ui-corner-all ui-btn-icon-right ui-icon-check">Salvar</a>
+    </div>
+    <div data-role="main">
+        <form id="formulario_pageFormPedidos">
+            <div class="ui-body">
+                <input type="hidden" name="id">
+                <label>Cliente</label>
+                <select name="clientes">
+                    <option value="">Selecione um cliente</option>
+                </select>
+                <div class="ui-grid-a">
+                    <div class="ui-block-a"><p>Itens do Pedido</p></div>
+                    <div class="ui-block-b" style="text-align: right;">
+                        <a href="#page_localizaProdutoPedido" id="btn_addItens_pageFormPedidos" class="ui-btn ui-mini ui-corner-all ui-btn-icon-right ui-icon-plus" data-transition="slide">Adicionar Item</a>
+                    </div>
+                </div>
+                <ol id="listview_itensPedido" data-role="listview" data-inset="true">
+                    <li><a><h2>Textura Bematex Areia</h2> <p>100,00 X 5 = R$ 500,00</p></a><a href="#purchase" class="ui-icon-delete" data-rel="popup" data-position-to="window" data-transition="pop">Remover</a></li>
+                    <li><h2>Textura Bematex Areia</h2> <p>100,00 X 5 = R$ 500,00</p></li>
+                    <li><h2>Textura Bematex Areia</h2> <p>100,00 X 5 = R$ 500,00</p></li>
+                </ol>
+                <br>
+                <label>Valor Total</label>
+                <input type="number" name="valor_total">
+                <label>Observação</label>
+                <textarea cols="40" rows="10" name="observacao"></textarea>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div data-role="page" id="page_localizaProdutoPedido">
+    <div data-role="header" data-position="fixed">
+        <a href="#page_formPedidos" class="ui-btn-left ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-arrow-l ui-btn-icon-notext">Cancelar</a>
+        <h1></h1>
+    </div>
+    <div data-role="main">
+        <h2>Localizar produtos</h2>
+        <ul id="listviewLocalizarProdutos" data-role="listview" data-autodividers="true" data-split-icon="delete" data-filter="true" data-filter-placeholder="Busque pelo produto" data-inset="true">
+        </ul>
+    </div>
+</div>
+
+<div data-role="page" id="page_adicionaItemPedido">
+    <div data-role="header" data-position="fixed">
+        <a href="#page_localizaProdutoPedido" id="btn_voltar_pageAdicionaItemPedido" class="ui-btn-left ui-btn ui-mini ui-corner-all ui-btn-icon-left ui-icon-arrow-l ui-btn-icon-notext">Cancelar</a>
+        <h1></h1>
+    </div>
+    <div data-role="main">
+        <h2>Adicionar produto</h2>
+        <form id="formulario_pageAdicionaItemPedido">
+            <div class="ui-body">
+                <input type="hidden" name="indexArray">
+                <input type="hidden" name="id">
+                <input type="hidden" name="produto">
+                <label>Produto</label>
+                <div id="div_nomeProdutoPageAdicionaItemPedido"></div>
+                <label>Valor Unitário</label>
+                <input type="number" name="valor_unitario">
+                <label>Quantidade</label>
+                <input type="number" pattern="[0-9]*" name="quantidade">
+                <a href="#page_formPedidos" id="btn_concluir_pageAdicionaItemPedido" class="ui-btn ui-mini ui-corner-all ui-btn-icon-right ui-icon-check">Concluir</a>
+            </div>
+        </form>
+    </div>
+</div>

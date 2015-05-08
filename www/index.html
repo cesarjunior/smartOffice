@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <!-- <link rel="stylesheet" href="jquery-mobile/jquery.mobile-1.4.5.min.css"> -->
+        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/reset.css">
+        <title>G.C Distribuição</title>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script src="js/jquery.js"></script>
+        <!-- <script src="jquery-mobile/jquery.mobile-1.4.5.js"></script> -->
+        <script src="js/index.js" charset="utf-8"></script>
+        <script src="js/clientes.js" charset="utf-8"></script>
+        <script src="js/produtos.js" charset="utf-8"></script>
+        <script src="js/pedidos.js" charset="utf-8"></script>
+        <script>
+            $(document).on('ready', function () {
+                app.init();
+                $('#panel_slider li a').on('tap', function () {
+                    $("#paginaPrincipal div[role='main']").attr('style', 'display: none');
+                    $($(this).attr('href')).attr('style', 'display: block');
+                    app.closeSlider();
+                    return false;
+                });
+
+                $('.mainContainer').on('swipeleft', function () {
+                    alert('Teste Ok');
+                });
+
+                $('.openMenuSlider').on('click', function (event) {
+                    event.preventDefault();
+                    // create menu variables
+                    var slideMenu = $('#menuSlider');
+                    var slideWidth = 275;
+
+                    // toggle open class
+                    slideMenu.toggleClass("open");
+
+                    // slide menu
+                    if (slideMenu.hasClass("open")) {
+                        slideMenu.animate({
+                            left: "0px"
+                        });
+                    } else {
+                        slideMenu.animate({
+                            left: -slideWidth
+                        }, 250);
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="paginaPrincipal" class="pageContainer">
+            <div class="headerContainer">
+                <h1 class="openMenuSlider">smartOffice</h1>
+                <div class="menu">Menu</div>
+            </div>
+
+            <div id="dashboard" class="mainContainer">
+                <h2>Pagina Inicial</h2>
+                <p>Aguarde, preparando conteudo.</p>
+                <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.
+                    The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.
+                    The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.</p>
+                <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.</p>
+                <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.</p>
+                <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.
+                    The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.
+                    The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.</p>
+                <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.</p>
+                <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.</p>
+                <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.
+                    The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.
+                    The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.</p>
+                <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.</p>
+                <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.</p>
+                <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.
+                    The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.
+                    The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.</p>
+                <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.</p>
+                <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.</p>
+                <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.
+                    The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.
+                    The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.</p>
+                <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.</p>
+                <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.</p>
+                <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.
+                    The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.
+                    The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.</p>
+                <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.</p>
+                <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.</p>
+            </div>
+
+            <div id="clientes" class="mainContainer" style="display: none;">
+                <h2>Clientes</h2>
+                <a href="#page_formClientes" class="ui-btn ui-icon-plus ui-btn-icon-left">Novo Cliente</a>
+                <ul id="listviewClientes" data-role="listview" data-autodividers="true" data-split-icon="delete" data-filter="true" data-filter-placeholder="Busque pelo Nome ou CNPJ/CPF" data-inset="true">
+                </ul>
+            </div>
+
+            <div id="produtos" class="mainContainer" style="display: none;">
+                <h2>Produtos</h2>
+                <a href="#page_formProdutos" class="ui-btn ui-icon-plus ui-btn-icon-left">Novo Produto</a>
+                <ul id="listviewProdutos" data-role="listview" data-autodividers="true" data-split-icon="delete" data-filter="true" data-filter-placeholder="Busque pelo nome ou código" data-inset="true">
+                </ul>
+            </div>
+
+            <div id="pedidos" class="mainContainer" style="display: none;">
+                <h2>Pedidos</h2>
+                <a href="#page_formPedidos" id="btn_novo_pagePedidos" class="ui-btn ui-icon-plus ui-btn-icon-left">Novo Pedido</a>
+                <ul id="listviewPedidos" data-role="listview" data-split-icon="gear" data-filter="true" data-filter-placeholder="Busque pelo cliente" data-inset="true">
+                </ul>
+                <div id="popupAcoesPedidos">
+                    <ul data-role="listview" data-inset="true" style="min-width:210px;">
+                        <li data-role="list-divider">Lista de ações</li>
+                        <li><a href="#">Abrir pedido</a></li>
+                        <li><a href="#" class="acaoEstoque">Lançar estoque</a></li>
+                        <li><a href="#">Excluir</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="menuSlider" id="menuSlider">
+                <h3>NAVEGAÇÃO</h3>
+                <ul>
+                    <li><a href="#dashboard">Dashboard</a></li>
+                    <li><a href="#clientes" id="btn_iniciarModulo_clientes">Clientes</a></li>
+                    <li><a href="#produtos" id="btn_iniciarModulo_produtos">Produtos</a></li>
+                    <li><a href="#pedidos" id="btn_iniciarModulo_pedidos">Pedidos</a></li>
+                    <li>Entregas</li>
+                </ul>
+            </div>
+        </div>
+
+
+    </body>
+</html>

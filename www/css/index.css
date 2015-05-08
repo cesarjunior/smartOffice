@@ -1,0 +1,56 @@
+body {
+    font-family:'Helvetica', Helvetica, Arial, sans-serif;
+    font-size: 13px !important;
+    background: #f0f0f0;
+}
+
+.menuSlider {
+    position: fixed;
+    width: 250px;
+    height: 100%;
+    background: #fff;
+    top: 50px;
+    left: -275px;
+    z-index: 100;
+    border-left: 2px solid #4977BC;
+    box-shadow: 1px -1px 5px #888;
+    overflow: hidden;
+    padding: 05px 10px 0px 10px;
+}
+.menuSlider > h3 {
+    border-bottom: 1px solid #098ED1;
+    padding: 5px 0;
+    color: #098ED1;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.pageContainer {
+    height: calc(100% - 10px);
+}
+
+.headerContainer {
+    background: #4977BC; //#17679d
+    border-bottom: 1px solid #ccc;
+    padding: 15px;
+    line-height: 40px;
+    height: 40px;
+    color: #fff;
+}
+
+.headerContainer > h1 {
+    float: left;
+    background: url('../img/icons/menu16x16.png') no-repeat;
+    padding-left: 25px;
+    background-position: 0px;
+    font-size: 20px;
+}
+.headerContainer > .menu {
+    float: right
+}
+
+.pageContainer > .mainContainer {
+    height: calc(100% - 50px);
+    overflow: auto;
+    padding: 10px 10px 0px 10px;
+}
