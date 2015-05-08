@@ -35,8 +35,25 @@ var app = {
         $.mobile.loading("hide");
         return this;
     },
-    closeSlider: function () {
-        $('#panel_slider').panel('close');
+    toggleSlider: function () {
+        // create menu variables
+        var slideMenu = $('#menuSlider');
+        var slideWidth = 325;
+
+        // toggle open class
+        slideMenu.toggleClass("open");
+
+        // slide menu
+        if (slideMenu.hasClass("open")) {
+            slideMenu.animate({
+                left: "0px"
+            });
+        } else {
+            slideMenu.animate({
+                left: -slideWidth
+            }, 250);
+        }
+        
         return this;
     },
     openDatabase: function () {

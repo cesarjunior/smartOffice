@@ -27,29 +27,13 @@
                     return false;
                 });
 
-                $('.mainContainer').on('swipeleft', function () {
-                    alert('Teste Ok');
-                });
-
                 $('.openMenuSlider').on('click', function (event) {
                     event.preventDefault();
-                    // create menu variables
-                    var slideMenu = $('#menuSlider');
-                    var slideWidth = 325;
-
-                    // toggle open class
-                    slideMenu.toggleClass("open");
-
-                    // slide menu
-                    if (slideMenu.hasClass("open")) {
-                        slideMenu.animate({
-                            left: "0px"
-                        });
-                    } else {
-                        slideMenu.animate({
-                            left: -slideWidth
-                        }, 250);
-                    }
+                    app.toggleSlider();
+                });
+                
+                $('.mainContainer').on('click', function() {
+                    app.toggleSlider();
                 });
             });
         </script>
@@ -134,13 +118,10 @@
                     <li><a href="#pedidos" id="btn_iniciarModulo_pedidos">Pedidos</a></li>
                     <li>Entregas</li>
                 </ul>
-                <h3>NAVEGAÇÃO</h3>
+                <h3>CONFIGURAÇÕES</h3>
                 <ul>
-                    <li><a href="#dashboard">Dashboard</a></li>
-                    <li><a href="#clientes" id="btn_iniciarModulo_clientes">Clientes</a></li>
-                    <li><a href="#produtos" id="btn_iniciarModulo_produtos">Produtos</a></li>
-                    <li><a href="#pedidos" id="btn_iniciarModulo_pedidos">Pedidos</a></li>
-                    <li>Entregas</li>
+                    <li>Sincronização</li>
+                    <li>Perfil</li>
                 </ul>
             </div>
         </div>
