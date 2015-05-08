@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.phonegap.gcdistribuicao" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>G. C. Distribuição</name>
+    <name>smartOffice - Gestão Mobile</name>
     <description>
-        Novo Aplicativo Teste de gestão movel da G. C. Distribuição
+        Aplicativo de gestão móvel desenvolvido para atender as necessidades administrativas da empresa G. C. Distribuição!!
     </description>
     <author email="cesarjunior.sistema@gmail.com" href="http://www.connectiva.com.br">
-        Connectiva Sistemas
+        Connectiva Sistemas - Desenvolvendo Soluções
     </author>
     <content src="index.html" />
     <preference name="permissions" value="none" />
-    <preference name="phonegap-version" value="3.6.3" />
+    <preference name="phonegap-version" value="3.7.0" />
     <preference name="orientation" value="default" />
     <preference name="target-device" value="universal" />
     <preference name="fullscreen" value="false" />

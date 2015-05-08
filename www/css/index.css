@@ -6,11 +6,11 @@ body {
 
 .menuSlider {
     position: fixed;
-    width: 250px;
+    width: 300px;
     height: 100%;
     background: #fff;
     top: 50px;
-    left: -275px;
+    left: -325px;
     z-index: 100;
     border-left: 2px solid #4977BC;
     box-shadow: 1px -1px 5px #888;
@@ -21,8 +21,21 @@ body {
     border-bottom: 1px solid #098ED1;
     padding: 5px 0;
     color: #098ED1;
-    font-size: 12px;
-    font-weight: normal;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.menuSlider li {
+    line-height: 35px;
+    height: 35px;
+    color: #666;
+    padding-left: 15px;
+    border-bottom: 1px solid #e7e7e7;
+}
+
+.menuSlider li a {
+    color: #666;
+    text-decoration: none;
 }
 
 .pageContainer {
@@ -30,12 +43,12 @@ body {
 }
 
 .headerContainer {
-    background: #4977BC; //#17679d
-    border-bottom: 1px solid #ccc;
-    padding: 15px;
-    line-height: 40px;
-    height: 40px;
+    background: #4977BC;
+    height: 50px;
+    line-height: 50px;
     color: #fff;
+    position: fixed;
+    width: 100%;
 }
 
 .headerContainer > h1 {
@@ -50,7 +63,5 @@ body {
 }
 
 .pageContainer > .mainContainer {
-    height: calc(100% - 50px);
-    overflow: auto;
-    padding: 10px 10px 0px 10px;
+    padding: 60px 10px 0px 10px;
 }
