@@ -20,10 +20,10 @@
         <script>
             $(document).on('ready', function () {
                 app.init();
-                $('#panel_slider li a').on('tap', function () {
-                    $("#paginaPrincipal div[role='main']").attr('style', 'display: none');
+                $('#menuSlider li a').on('click', function () {
+                    $(".mainContainer").attr('style', 'display: none');
                     $($(this).attr('href')).attr('style', 'display: block');
-                    app.closeSlider();
+                    app.toggleSlider('close');
                     return false;
                 });
 
@@ -31,9 +31,9 @@
                     event.preventDefault();
                     app.toggleSlider();
                 });
-                
-                $('.mainContainer').on('click', function() {
-                    app.toggleSlider();
+
+                $('.mainContainer').on('click', function () {
+                    app.toggleSlider('close');
                 });
             });
         </script>
@@ -81,9 +81,11 @@
             </div>
 
             <div id="clientes" class="mainContainer" style="display: none;">
-                <h2>Clientes</h2>
-                <a href="#page_formClientes" class="ui-btn ui-icon-plus ui-btn-icon-left">Novo Cliente</a>
-                <ul id="listviewClientes" data-role="listview" data-autodividers="true" data-split-icon="delete" data-filter="true" data-filter-placeholder="Busque pelo Nome ou CNPJ/CPF" data-inset="true">
+                Sessao de Clientes.
+                <ul class="listview">
+                    <li>Construtora Estrela Guia</li>
+                    <li>Construtora Farias</li>
+                    <li>Fernando</li>
                 </ul>
             </div>
 

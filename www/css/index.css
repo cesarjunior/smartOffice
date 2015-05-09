@@ -1,6 +1,6 @@
 body {
     font-family:'Helvetica', Helvetica, Arial, sans-serif;
-    font-size: 13px !important;
+    font-size: 17px !important;
     background: #f0f0f0;
 }
 
@@ -31,15 +31,12 @@ body {
     color: #666;
     padding-left: 15px;
     border-bottom: 1px solid #e7e7e7;
+    font-size: 13px;
 }
 
 .menuSlider li a {
     color: #666;
     text-decoration: none;
-}
-
-.pageContainer {
-    height: calc(100% - 10px);
 }
 
 .headerContainer {
@@ -62,6 +59,19 @@ body {
     float: right
 }
 
+.pageContainer {
+    height: calc(100% - 10px);
+}
+
 .pageContainer > .mainContainer {
     padding: 90px 10px 0px 10px;
+    height: calc(100% - 80px);
+}
+
+.listview > li {
+    background-color: #fff;
+    border: 1px solid #e7e7e7;
+    padding: 5px;
+    margin-bottom: 5px;
+    height: 60px;
 }

@@ -35,22 +35,28 @@ var app = {
         $.mobile.loading("hide");
         return this;
     },
-    toggleSlider: function () {
+    toggleSlider: function (action) {
         // create menu variables
         var slideMenu = $('#menuSlider');
-        var slideWidth = 325;
+        var positionLeft = "-325px";
 
-        // toggle open class
-        slideMenu.toggleClass("open");
+        if (typeof action != 'string') {
+            if (slideMenu.css('left') == positionLeft) {
+                action = 'open';
+            } else {
+                action = 'close';
+            }
+        }
 
-        // slide menu
-        if (slideMenu.hasClass("open")) {
+        if (action == 'open') {
+            // Abre o Menu
             slideMenu.animate({
                 left: "0px"
             });
-        } else {
+        } else if (action == 'close') {
+            //Fecha o Menu
             slideMenu.animate({
-                left: -slideWidth
+                left: positionLeft
             }, 250);
         }
         
