@@ -4,6 +4,18 @@ body {
     background: #f0f0f0;
 }
 
+.clear {
+    clear: both;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
 .menuSlider {
     position: fixed;
     width: 300px;
@@ -85,18 +97,6 @@ body {
 .listview .listConteudo > div {
     color: #666;
     font-size: 13px;
-}
-
-.clear {
-    clear: both;
-}
-
-.left {
-    float: left;
-}
-
-.right {
-    float: right;
 }
 
 .listview .listConteudo > .divisaoDados > div {

@@ -17,32 +17,11 @@
         <script src="js/clientes.js" charset="utf-8"></script>
         <script src="js/produtos.js" charset="utf-8"></script>
         <script src="js/pedidos.js" charset="utf-8"></script>
-        <script>
-            $(document).on('ready', function () {
-                app.init();
-                $('#menuSlider li a').on('click', function () {
-                    $(".mainContainer").attr('style', 'display: none');
-                    $($(this).attr('href')).attr('style', 'display: block');
-                    app.toggleSlider('close');
-                    return false;
-                });
-
-                $('.openMenuSlider').on('click', function (event) {
-                    event.preventDefault();
-                    app.toggleSlider();
-                });
-
-                $('.mainContainer').on('click', function () {
-                    app.toggleSlider('close');
-                });
-            });
-        </script>
     </head>
     <body>
         <div id="paginaPrincipal" class="pageContainer">
             <div class="headerContainer">
-                <h1 class="openMenuSlider">smartOffice</h1>
-                <div class="menu">Menu</div>
+                <h1>Clientes</h1>
             </div>
 
             <div id="dashboard" class="mainContainer">
@@ -79,73 +58,6 @@
                 <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.</p>
                 <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.</p>
             </div>
-
-            <div id="clientes" class="mainContainer" style="display: none;">
-                Sessao de Clientes.
-                <ul class="listview">
-                    <li>
-                        <div class="listConteudo">
-                            <a href="formularioCliente.html">
-                                <h1>Construtora Estrela Guia</h1>
-                                <div class="divisaoDados left">
-                                    <div class="cnpj">00.000.000/0000-00</div>
-                                    <div>(94) 90000-0000</div>
-                                </div>
-                                <div class="divisaoDados right">
-                                    <div>Situação: Ativa</div>
-                                    <div>Ultimo Pedido:</div>
-                                </div>
-                                <div class="clear"></div>
-                            </a>
-                        </div>
-                        <div class="iconeAcao">
-                            <img src="img/icons/gear-black.png" alt="Smiley face">
-                        </div>
-                    </li>
-                    <li>Construtora Farias</li>
-                    <li>Fernando</li>
-                </ul>
-            </div>
-
-            <div id="produtos" class="mainContainer" style="display: none;">
-                <h2>Produtos</h2>
-                <a href="#page_formProdutos" class="ui-btn ui-icon-plus ui-btn-icon-left">Novo Produto</a>
-                <ul id="listviewProdutos" data-role="listview" data-autodividers="true" data-split-icon="delete" data-filter="true" data-filter-placeholder="Busque pelo nome ou código" data-inset="true">
-                </ul>
-            </div>
-
-            <div id="pedidos" class="mainContainer" style="display: none;">
-                <h2>Pedidos</h2>
-                <a href="#page_formPedidos" id="btn_novo_pagePedidos" class="ui-btn ui-icon-plus ui-btn-icon-left">Novo Pedido</a>
-                <ul id="listviewPedidos" data-role="listview" data-split-icon="gear" data-filter="true" data-filter-placeholder="Busque pelo cliente" data-inset="true">
-                </ul>
-                <div id="popupAcoesPedidos">
-                    <ul data-role="listview" data-inset="true" style="min-width:210px;">
-                        <li data-role="list-divider">Lista de ações</li>
-                        <li><a href="#">Abrir pedido</a></li>
-                        <li><a href="#" class="acaoEstoque">Lançar estoque</a></li>
-                        <li><a href="#">Excluir</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="menuSlider" id="menuSlider">
-                <h3>NAVEGAÇÃO</h3>
-                <ul>
-                    <li><a href="#dashboard">Dashboard</a></li>
-                    <li><a href="#clientes" id="btn_iniciarModulo_clientes">Clientes</a></li>
-                    <li><a href="#produtos" id="btn_iniciarModulo_produtos">Produtos</a></li>
-                    <li><a href="#pedidos" id="btn_iniciarModulo_pedidos">Pedidos</a></li>
-                    <li>Entregas</li>
-                </ul>
-                <h3>CONFIGURAÇÕES</h3>
-                <ul>
-                    <li>Sincronização</li>
-                    <li>Perfil</li>
-                </ul>
-            </div>
         </div>
-
-
     </body>
 </html>
