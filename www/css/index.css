@@ -85,11 +85,26 @@ body {
 .listview .listConteudo > div {
     color: #666;
     font-size: 13px;
+}
+
+.clear {
+    clear: both;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.listview .listConteudo > .divisaoDados > div {
     padding-left: 10px;
     padding-bottom: 5px;
 }
 
-.listview .listConteudo > .cnpj {
+.listview .listConteudo > .divisaoDados > .cnpj {
     font-size: 15px;
 }
 
