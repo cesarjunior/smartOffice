@@ -1,0 +1,107 @@
+/* 
+    Created on : 20/05/2015, 16:52:02
+    Author     : Cesar Junior
+*/
+
+form > h3 {
+    color: #4977BC;
+    font-size: 15px;
+    padding: 7px 0px;
+}
+
+form select, 
+form textarea, 
+form input
+{
+    border:1px solid #c5c5c5;
+    padding:6px 7px;
+    color:#323232;
+    margin:0;
+    background-color:#ffffff;
+    outline:none;
+    border-radius:4px;
+    width: calc(100% - 17px);
+
+}
+
+.form-row {
+    padding:12px 6px;
+}
+
+.form-row label {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    float: none;
+    width: auto;
+    display: block;
+    padding-bottom: 7px;
+}
+
+.form-row .alpha
+{
+    padding-left:0;
+}
+
+.form-row .omega
+{
+    padding-right:0;
+}
+
+.formGrid-1, 
+.formGrid-2, 
+.formGrid-3, 
+.formGrid-4, 
+.formGrid-5, 
+.formGrid-6, 
+.formGrid-7, 
+.formGrid-8
+{
+    float:left;
+
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+}
+
+.formGrid-1
+{
+    width:12.5%;
+}
+
+.formGrid-2
+{
+    width:25%;
+}
+
+.formGrid-3
+{
+    width:37.5%;
+}
+
+.formGrid-4
+{
+    width:50%;
+}
+
+.formGrid-5
+{
+    width:62.5%;
+}
+
+.formGrid-6
+{
+    width:75%;
+}
+
+.formGrid-7
+{
+    width:87.5%;
+}
+
+.formGrid-8
+{
+    width:100%;
+}

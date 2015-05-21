@@ -5,6 +5,9 @@ var app = {
         //produtos.init();
         //pedidos.init();
         app.openDatabase();
+        app.displayContainer();
+        $(window).on('popstate', this.displayContainer);
+        
         db.transaction(function (tx) {
             //CREATE TABLE IF NOT EXISTS clientes (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, nome VARCHAR(100) NOT NULL, documento VARCHAR(20), telefone VARCHAR(15), endereco VARCHAR(50), bairro VARCHAR(50), cidade VARCHAR(50), estado VARCHAR(50), cep VARCHAR(10), observacao TEXT)
             //CREATE TABLE IF NOT EXISTS produtos (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, produto TEXT NOT NULL, valor_venda REAL NOT NULL, estoque INTEGER, observacao TEXT)
@@ -19,6 +22,12 @@ var app = {
             //tx.executeSql("DROP TABLE pedidos");
             //tx.executeSql("DROP TABLE pedidos_itens");
         }, app.transactionError);
+    },
+    displayContainer: function () {
+        var hashTag = (window.location.hash == '') ? '#dashboard' : window.location.hash;
+        
+        $('.mainContainer').attr('style', 'display: none');
+        $(hashTag).attr('style', 'display: block');
     },
     openLoader: function () {
         options = {
@@ -59,7 +68,7 @@ var app = {
                 left: positionLeft
             }, 250);
         }
-        
+
         return this;
     },
     openDatabase: function () {

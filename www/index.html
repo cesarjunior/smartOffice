@@ -7,8 +7,9 @@
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <!-- <link rel="stylesheet" href="jquery-mobile/jquery.mobile-1.4.5.min.css"> -->
-        <link rel="stylesheet" href="css/index.css">
         <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/form.css">
         <title>G.C Distribuição</title>
         <script type="text/javascript" src="cordova.js"></script>
         <script src="js/jquery.js"></script>
@@ -20,11 +21,11 @@
         <script>
             $(document).on('ready', function () {
                 app.init();
+
                 $('#menuSlider li a').on('click', function () {
-                    $(".mainContainer").attr('style', 'display: none');
-                    $($(this).attr('href')).attr('style', 'display: block');
                     app.toggleSlider('close');
-                    return false;
+
+                    //window.history.pushState({url: $(this).attr('href')}, 'smartOffice', $(this).attr('href'));
                 });
 
                 $('.openMenuSlider').on('click', function (event) {
@@ -84,8 +85,9 @@
                 Sessao de Clientes.
                 <ul class="listview">
                     <li>
-                        <div class="listConteudo">
-                            <a href="formularioCliente.html">
+                        <a href="#formularioCliente">
+                            <div class="listConteudo">
+
                                 <h1>Construtora Estrela Guia</h1>
                                 <div class="divisaoDados left">
                                     <div class="cnpj">00.000.000/0000-00</div>
@@ -96,8 +98,9 @@
                                     <div>Ultimo Pedido:</div>
                                 </div>
                                 <div class="clear"></div>
-                            </a>
-                        </div>
+
+                            </div>
+                        </a>
                         <div class="iconeAcao">
                             <img src="img/icons/gear-black.png" alt="Smiley face">
                         </div>
@@ -105,6 +108,28 @@
                     <li>Construtora Farias</li>
                     <li>Fernando</li>
                 </ul>
+            </div>
+            <div id="formularioCliente" class="mainContainer" style="display: none;">
+                <form>
+                    <h3>Dados do cliente</h3>
+                    <div class="form-row">
+                        <label>Nome/Razão Social</label>
+                        <input type="text" />
+                    </div>
+                    <div class="form-row">
+                        <label>CPF/CNPJ</label>
+                        <input type="text" />
+                    </div>
+                    <div class="form-row">
+                        <label>Telefone</label>
+                        <input type="text" />
+                    </div>
+                    <div class="form-row">
+                        <label>E-mail</label>
+                        <input type="text" />
+                    </div>
+                    <h3>Dados adicionais</h3>
+                </form>
             </div>
 
             <div id="produtos" class="mainContainer" style="display: none;">
