@@ -21,6 +21,7 @@ form input
     outline:none;
     border-radius:4px;
     width: calc(100% - 17px);
+    font-size: 17px;
 
 }
 

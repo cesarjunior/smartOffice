@@ -9,7 +9,10 @@
         <!-- <link rel="stylesheet" href="jquery-mobile/jquery.mobile-1.4.5.min.css"> -->
         <link rel="stylesheet" href="css/reset.css">
         <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/listview.css">
         <link rel="stylesheet" href="css/form.css">
+        <link rel="stylesheet" href="css/buttons.css">
+        <link rel="stylesheet" href="css/icons.css">
         <title>G.C Distribuição</title>
         <script type="text/javascript" src="cordova.js"></script>
         <script src="js/jquery.js"></script>
@@ -110,26 +113,34 @@
                 </ul>
             </div>
             <div id="formularioCliente" class="mainContainer" style="display: none;">
-                <form>
-                    <h3>Dados do cliente</h3>
-                    <div class="form-row">
-                        <label>Nome/Razão Social</label>
-                        <input type="text" />
+                <div class="panelBody">
+                    <div class="panelBody-container">
+                        <form>
+                            <h3>Dados do cliente</h3>
+                            <div class="form-row">
+                                <label>Nome/Razão Social</label>
+                                <input type="text" />
+                            </div>
+                            <div class="form-row">
+                                <label>CPF/CNPJ</label>
+                                <input type="text" />
+                            </div>
+                            <div class="form-row">
+                                <label>Telefone</label>
+                                <input type="text" />
+                            </div>
+                            <div class="form-row">
+                                <label>E-mail</label>
+                                <input type="text" />
+                            </div>
+                            <h3>Dados adicionais</h3>
+                        </form>
                     </div>
-                    <div class="form-row">
-                        <label>CPF/CNPJ</label>
-                        <input type="text" />
+                    <div class="panelBody-button">
+                        <input type="button" value="Salvar" class="buttons green i-24 i-check" />
+                        <input type="button" value="Cancelar" class="buttons red i-24 i-acces-denied-sign" />
                     </div>
-                    <div class="form-row">
-                        <label>Telefone</label>
-                        <input type="text" />
-                    </div>
-                    <div class="form-row">
-                        <label>E-mail</label>
-                        <input type="text" />
-                    </div>
-                    <h3>Dados adicionais</h3>
-                </form>
+                </div>
             </div>
 
             <div id="produtos" class="mainContainer" style="display: none;">
