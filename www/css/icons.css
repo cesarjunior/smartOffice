@@ -3,7 +3,12 @@
     Author     : Cesar Junior
 */
 
-.i-24{background-repeat:no-repeat;}
+
+.i-24{
+    padding-left: 40px;
+    background-position: 8px center;
+    background-repeat:no-repeat;
+}
 .i-24.i-abacus{background-image:url(../img/icons/24/abacus.png);}
 .i-24.i-acces-denied-sign{background-image:url(../img/icons/24/acces-denied-sign.png);}
 .i-24.i-address-book-1{background-image:url(../img/icons/24/address-book-1.png);}

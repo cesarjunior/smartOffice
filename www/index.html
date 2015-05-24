@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="css/form.css">
         <link rel="stylesheet" href="css/buttons.css">
         <link rel="stylesheet" href="css/icons.css">
+        <link rel="stylesheet" href="css/font-icons/font-icons.css">
         <title>G.C Distribuição</title>
         <script type="text/javascript" src="cordova.js"></script>
         <script src="js/jquery.js"></script>
@@ -113,10 +114,12 @@
                 </ul>
             </div>
             <div id="formularioCliente" class="mainContainer" style="display: none;">
-                <div class="panelBody">
-                    <div class="panelBody-container">
-                        <form>
-                            <h3>Dados do cliente</h3>
+                <div class="widgetPanel">
+                    <form>
+                        <div class="widgetPanel-title">
+                            <i class="icon-user">Dados do cliente</i>
+                        </div>
+                        <div class="widgetPanel-content">
                             <div class="form-row">
                                 <label>Nome/Razão Social</label>
                                 <input type="text" />
@@ -133,13 +136,44 @@
                                 <label>E-mail</label>
                                 <input type="text" />
                             </div>
-                            <h3>Dados adicionais</h3>
-                        </form>
-                    </div>
-                    <div class="panelBody-button">
-                        <input type="button" value="Salvar" class="buttons green i-24 i-check" />
-                        <input type="button" value="Cancelar" class="buttons red i-24 i-acces-denied-sign" />
-                    </div>
+                        </div>
+                        <div class="widgetPanel-title">
+                            <i class="icon-map-marker">Endereço</i>
+                            <div class="tools">
+                                <a href="#" class="icon-chevron-down"></a>
+                            </div>
+                        </div>
+                        <div class="widgetPanel-content">
+                            <div class="form-row">
+                                <label>Logradouro</label>
+                                <input type="text" />
+                            </div>
+                            <div class="form-row">
+                                <label>Bairro</label>
+                                <input type="text" />
+                            </div>
+                            <div class="form-row">
+                                <label>Cidade</label>
+                                <input type="text" />
+                            </div>
+                            <div class="form-row">
+                                <div class="formGrid-3">
+                                    <label>Estado</label>
+                                    <input type="text" />
+                                </div>
+                                <div class="formGrid-5">
+                                    <label>CEP</label>
+                                    <input type="text" />
+                                </div>
+                                <div class="clear"></div>
+                            </div>                           
+                        </div>
+                        <div class="widgetPanel-footer">
+                            <button class="buttons green"><i class="icon-ok"></i>Salvar</button>
+                            <input type="button" value="Salvar" class="buttons green i-24 i-check" />
+                            <input type="button" value="Cancelar" class="buttons red i-24 i-acces-denied-sign" />
+                        </div>
+                    </form>
                 </div>
             </div>
 

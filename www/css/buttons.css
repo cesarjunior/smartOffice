@@ -11,6 +11,7 @@
     cursor: pointer;
     background-repeat: no-repeat;
     font-family: 'PTSansRegular', Arial, Helvetica, sans-serif;
+    font-size: 17px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     -o-border-radius: 3px;
@@ -46,7 +47,7 @@
     background-image: linear-gradient(#ca4e4e,#bc4343);
 }
 
-.buttons.i-24 {
-    padding-left: 40px;
-    background-position: 8px center;
+.buttons i {
+    padding-right: 10px;
+    font-size: 17px;
 }
