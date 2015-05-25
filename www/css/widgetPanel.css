@@ -1,0 +1,71 @@
+/* 
+    Created on : 25/05/2015, 11:16:07
+    Author     : Cesar Junior
+*/
+
+.widgetPanel {
+    background-color:#f8f8f8;
+    border:1px solid #bcbcbc;
+
+    /* CSS 3 */
+
+    -webkit-box-shadow:0px 3px 3px -2px rgba(0, 0, 0, 0.15);	
+    -moz-box-shadow:0px 3px 3px -2px rgba(0, 0, 0, 0.15);	
+    -o-box-shadow:0px 3px 3px -2px rgba(0, 0, 0, 0.15);
+    -khtml-box-shadow:0px 3px 3px -2px rgba(0, 0, 0, 0.15);		
+    box-shadow:0px 3px 3px -2px rgba(0, 0, 0, 0.15);
+    margin-bottom: 30px;
+}
+
+.widgetPanel-title {
+    background-color: #EFEFEF;
+    /*
+    background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(#FDFDFD), to(#EAEAEA));
+    background-image: -webkit-linear-gradient(top, #FDFDFD 0%, #EAEAEA 100%);
+    background-image: -moz-linear-gradient(top, #FDFDFD 0%, #EAEAEA 100%);
+    background-image: -ms-linear-gradient(top, #FDFDFD 0%, #EAEAEA 100%);
+    background-image: -o-linear-gradient(top, #FDFDFD 0%, #EAEAEA 100%);
+    background-image: -linear-gradient(top, #FDFDFD 0%, #EAEAEA 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdfdfd', endColorstr='#eaeaea',GradientType=0 );
+    */
+    border-bottom: 1px solid #e0dede;
+    border-top: 1px solid #e0dede;
+    height: 36px;
+    margin-bottom: 10px;
+    -webkit-border-radius: 3px 3px 0px 0px;
+    -moz-border-radius: 3px 3px 0px 0px;
+    border-radius: 3px 3px 0px 0px;
+}
+
+.widgetPanel-title:first-child {
+    border-top: 0px;
+}
+
+.widgetPanel-title i {
+    line-height: 36px;
+    padding-left: 10px;
+    color: #098ED1;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.widgetPanel-title i:before {
+    padding-right: 5px;
+}
+
+.widgetPanel-title > .tools {
+    padding-right: 10px;
+    float: right;
+    line-height: 36px;
+}
+
+.widgetPanel-content.close {
+    display: none;
+}
+
+.widgetPanel-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #bcbcbc;
+    text-align: right;
+    background: url(../img/panel-button-rows.png);
+}

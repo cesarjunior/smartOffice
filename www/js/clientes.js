@@ -4,8 +4,8 @@ var clientes = {
     returnRegisters: [],
     init: function () {
         $('#btn_iniciarModulo_clientes').on('tap', this.carregarListaRegistros);
-        $('#btn_salvar_pageFormClientes').on('tap', this.salvarFormularioClientes);
-        $('#btn_cancelar_pageFormClientes').on('tap', this.rezetePageFormClientes);
+        $('#btn_salvar_formularioClientes').on('click', this.salvarFormularioClientes);
+        $('#btn_cancelar_formularioClientes').on('click', this.rezeteFormularioClientes);
     },
     salvarFormularioClientes: function () {
         params = {
@@ -84,17 +84,9 @@ var clientes = {
             }
         });
     },
-    rezetePageFormClientes: function () {
-        $('#formulario_pageFormClientes input[name="id"]').val('');
-        //$('#formulario_pageFormClientes input[name="pessoa"] option[value="pj"]').attr('selected','selected');
-        $('#formulario_pageFormClientes input[name="nome"]').val('');
-        $('#formulario_pageFormClientes input[name="documento"]').val('');
-        $('#formulario_pageFormClientes input[name="telefone"]').val('');
-        $('#formulario_pageFormClientes input[name="endereco"]').val('');
-        $('#formulario_pageFormClientes input[name="bairro"]').val('');
-        $('#formulario_pageFormClientes input[name="cidade"]').val('');
-        $('#formulario_pageFormClientes input[name="estado"]').val('');
-        $('#formulario_pageFormClientes input[name="cep"]').val('');
-        $('#formulario_pageFormClientes textarea[name="observacao"]').val('');
+    rezeteFormularioClientes: function () {
+        $('#modelClientes_formulario input').each(function (index) {
+            $(this).val('');
+        });
     }
 }

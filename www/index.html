@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="css/listview.css">
         <link rel="stylesheet" href="css/form.css">
         <link rel="stylesheet" href="css/buttons.css">
-        <link rel="stylesheet" href="css/icons.css">
+        <link rel="stylesheet" href="css/widgetPanel.css">
         <link rel="stylesheet" href="css/font-icons/font-icons.css">
         <title>G.C Distribuição</title>
         <script type="text/javascript" src="cordova.js"></script>
@@ -26,19 +26,25 @@
             $(document).on('ready', function () {
                 app.init();
 
-                $('#menuSlider li a').on('click', function () {
-                    app.toggleSlider('close');
-
+                $('#menuSlider').on('click', function (e) {
+                    e.stopPropagation();
+                    $('.dropdown-menu').hide();
                     //window.history.pushState({url: $(this).attr('href')}, 'smartOffice', $(this).attr('href'));
                 });
 
-                $('.openMenuSlider').on('click', function (event) {
-                    event.preventDefault();
+                $('.openMenuSlider').on('click', function (e) {
+                    e.stopPropagation();
                     app.toggleSlider();
+                    $('.dropdown-menu').hide();
                 });
 
-                $('.mainContainer').on('click', function () {
+                $('body, #menuSlider li a, .dropdown-menu li a').on('click', function () {
                     app.toggleSlider('close');
+                    $('.dropdown-menu').hide();
+                });
+
+                $('.dropdown-menu').on('click', function (e) {
+                    e.stopPropagation();
                 });
             });
         </script>
@@ -46,8 +52,12 @@
     <body>
         <div id="paginaPrincipal" class="pageContainer">
             <div class="headerContainer">
-                <h1 class="openMenuSlider">smartOffice</h1>
-                <div class="menu">Menu</div>
+                <div class="headerContainer-title openMenuSlider">
+                    <i class="icon-reorder"></i>
+                    <h1>smartOffice</h1>
+                </div>
+                <div class="headerContainer-tools">
+                </div>
             </div>
 
             <div id="dashboard" class="mainContainer">
@@ -106,7 +116,34 @@
                             </div>
                         </a>
                         <div class="iconeAcao">
-                            <a href="#" class="icon-cog"></a>
+                            <a href="#" class="icon-cog icon-large dropdown"></a>
+                            <ul class="dropdown-menu left">
+                                <li>
+                                    <a href="#formularioCliente">
+                                        <i class="icon-edit"></i>
+                                        Editar
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <i class="icon-trash"></i>
+                                        Deletar
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a>
+                                        <i class="icon-truck"></i>
+                                        Histórico de entrega
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <i class="icon-money"></i>
+                                        Financeiro
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </li>
                     <li>Construtora Farias</li>
@@ -115,26 +152,27 @@
             </div>
             <div id="formularioCliente" class="mainContainer" style="display: none;">
                 <div class="widgetPanel">
-                    <form>
+                    <form action="#clientes" method="post" id="modelClientes_formulario">
+                        <input type="hidden" name="id" />
                         <div class="widgetPanel-title">
                             <i class="icon-user">Dados do cliente</i>
                         </div>
                         <div class="widgetPanel-content">
                             <div class="form-row">
                                 <label>Nome/Razão Social</label>
-                                <input type="text" />
+                                <input type="text" name="nome" />
                             </div>
                             <div class="form-row">
                                 <label>CPF/CNPJ</label>
-                                <input type="text" />
+                                <input type="text" name="documento" />
                             </div>
                             <div class="form-row">
                                 <label>Telefone</label>
-                                <input type="text" />
+                                <input type="text" name="telefone" />
                             </div>
                             <div class="form-row">
                                 <label>E-mail</label>
-                                <input type="text" />
+                                <input type="text" name="email" />
                             </div>
                         </div>
                         <div class="widgetPanel-title">
@@ -170,7 +208,7 @@
                         </div>
                         <div class="widgetPanel-footer">
                             <button class="buttons green"><i class="icon-ok"></i>Salvar</button>
-                            <button class="buttons red"><i class="icon-remove"></i>Cancelar</button>
+                            <button class="buttons red" id="btn_cancelar_formularioClientes"><i class="icon-remove"></i>Cancelar</button>
                         </div>
                     </form>
                 </div>

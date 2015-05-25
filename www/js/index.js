@@ -8,6 +8,7 @@ var app = {
         app.displayContainer();
         $(window).on('popstate', this.displayContainer);
         $('.content-toggle').on('click', this.toggleContent);
+        $('.dropdown').on('click', this.dropdownToggle);
 
         db.transaction(function (tx) {
             //CREATE TABLE IF NOT EXISTS clientes (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, nome VARCHAR(100) NOT NULL, documento VARCHAR(20), telefone VARCHAR(15), endereco VARCHAR(50), bairro VARCHAR(50), cidade VARCHAR(50), estado VARCHAR(50), cep VARCHAR(10), observacao TEXT)
@@ -63,8 +64,14 @@ var app = {
             slideMenu.animate({
                 left: "0px"
             });
+            $('.openMenuSlider').children('i').animate({
+                left: -9
+            });
         } else if (action == 'close') {
             //Fecha o Menu
+            $('.openMenuSlider').children('i').animate({
+                left: 0
+            });
             slideMenu.animate({
                 left: positionLeft
             }, 250);
@@ -82,6 +89,11 @@ var app = {
                 $($thisClick).removeClass("icon-chevron-up").addClass("icon-chevron-down");
             }
         });
+        return false;
+    },
+    dropdownToggle: function () {
+        app.toggleSlider('close');
+        $(this).parent().children('.dropdown-menu').toggle();
         return false;
     },
     openDatabase: function () {

@@ -33,6 +33,6 @@
 
 .listview .iconeAcao {
     position: absolute;
-    top: 7px;
-    left: calc(100% - 27px);
+    top: 6px;
+    right: 12px;
 }
