@@ -106,7 +106,7 @@
                             </div>
                         </a>
                         <div class="iconeAcao">
-                            <img src="img/icons/gear-black.png" alt="Smiley face">
+                            <a href="#" class="icon-cog"></a>
                         </div>
                     </li>
                     <li>Construtora Farias</li>
@@ -140,10 +140,10 @@
                         <div class="widgetPanel-title">
                             <i class="icon-map-marker">Endereço</i>
                             <div class="tools">
-                                <a href="#" class="icon-chevron-down"></a>
+                                <a href="#" class="icon-chevron-down content-toggle" content-toggle="contentEndereco"></a>
                             </div>
                         </div>
-                        <div class="widgetPanel-content">
+                        <div class="widgetPanel-content close" id="contentEndereco">
                             <div class="form-row">
                                 <label>Logradouro</label>
                                 <input type="text" />
@@ -170,8 +170,7 @@
                         </div>
                         <div class="widgetPanel-footer">
                             <button class="buttons green"><i class="icon-ok"></i>Salvar</button>
-                            <input type="button" value="Salvar" class="buttons green i-24 i-check" />
-                            <input type="button" value="Cancelar" class="buttons red i-24 i-acces-denied-sign" />
+                            <button class="buttons red"><i class="icon-remove"></i>Cancelar</button>
                         </div>
                     </form>
                 </div>
