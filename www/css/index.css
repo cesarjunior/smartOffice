@@ -70,12 +70,16 @@ h3 {
     cursor: pointer;
 }
 
-.headerContainer > .headerContainer-title > h1 {
+.headerContainer > .headerContainer-title a {
+    color: #fff;
+}
+
+.headerContainer > .headerContainer-title h1 {
     padding-left: 25px;
     font-size: 20px;
 }
 
-.headerContainer > .headerContainer-title > i {
+.headerContainer > .headerContainer-title i {
     position: absolute;
     left: 0px;
     line-height: 80px;
@@ -83,7 +87,24 @@ h3 {
 
 .headerContainer > .headerContainer-tools {
     float: right;
-    padding-right: 10px;
+    padding-right: 40px;
+    height: 80px;
+}
+
+.headerContainer > .headerContainer-tools li {
+    float: left;
+    padding-left: 40px;
+    height: 80px;
+}
+
+.headerContainer > .headerContainer-tools li:first-child {
+    padding-left: 0px;
+}
+
+.headerContainer > .headerContainer-tools li a {
+    color: #fff;
+    font-size: 30px;
+    line-height: 80px;
 }
 
 .pageContainer {

@@ -50,7 +50,7 @@
         </script>
     </head>
     <body>
-        <div id="paginaPrincipal" class="pageContainer">
+        <div data-role="page" id="dashboard" class="pageContainer">
             <div class="headerContainer">
                 <div class="headerContainer-title openMenuSlider">
                     <i class="icon-reorder"></i>
@@ -60,7 +60,7 @@
                 </div>
             </div>
 
-            <div id="dashboard" class="mainContainer">
+            <div class="mainContainer">
                 <h2>Pagina Inicial</h2>
                 <p>Aguarde, preparando conteudo.</p>
                 <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.
@@ -94,27 +94,38 @@
                 <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.</p>
                 <p>The left panel and fixed header are outside the page. The right panel and fixed footer are inside the pages.</p>
             </div>
+        </div>
 
-            <div id="clientes" class="mainContainer" style="display: none;">
-                Sessao de Clientes.
-                <ul class="listview">
+        <div data-role="page" id="clientes" class="pageContainer" style="display: none;">
+            <div class="headerContainer">
+                <div class="headerContainer-title openMenuSlider">
+                    <i class="icon-reorder"></i>
+                    <h1>smartOffice</h1>
+                </div>
+                <div class="headerContainer-tools">
+                    <ul>
+                        <li><a href="#clientes" class="icon-filter"></a></li>
+                        <li><a href="#formularioCliente" class="icon-plus"></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mainContainer">
+                <ul class="listview" id="listviewClientes">
                     <li>
-                        <a href="#formularioCliente">
-                            <div class="listConteudo">
+                        <div class="listConteudo">
 
-                                <h1>Construtora Estrela Guia</h1>
-                                <div class="divisaoDados left">
-                                    <div class="cnpj">00.000.000/0000-00</div>
-                                    <div>(94) 90000-0000</div>
-                                </div>
-                                <div class="divisaoDados right">
-                                    <div>Situação: Ativa</div>
-                                    <div>Ultimo Pedido:</div>
-                                </div>
-                                <div class="clear"></div>
-
+                            <h1>{NOME}</h1>
+                            <div class="divisaoDados left">
+                                <div class="cnpj">{DOCUMENTO}</div>
+                                <div>{TELEFONE}</div>
                             </div>
-                        </a>
+                            <div class="divisaoDados right">
+                                <div>Situação: Ativa</div>
+                                <div>Ultimo Pedido:</div>
+                            </div>
+                            <div class="clear"></div>
+
+                        </div>
                         <div class="iconeAcao">
                             <a href="#" class="icon-cog icon-large dropdown"></a>
                             <ul class="dropdown-menu left">
@@ -146,13 +157,22 @@
                             </ul>
                         </div>
                     </li>
-                    <li>Construtora Farias</li>
-                    <li>Fernando</li>
                 </ul>
             </div>
-            <div id="formularioCliente" class="mainContainer" style="display: none;">
+        </div>
+
+        <div data-role="page" id="formularioCliente" class="pageContainer" style="display: none;">
+            <div class="headerContainer">
+                <div class="headerContainer-title" id="btn_voltar_formularioClientes">
+                    <i class="icon-chevron-left"></i>
+                    <h1>Registro de clientes</h1>
+                </div>
+                <div class="headerContainer-tools">
+                </div>
+            </div>
+            <div class="mainContainer">
                 <div class="widgetPanel">
-                    <form action="#clientes" method="post" id="modelClientes_formulario">
+                    <form id="modelClientes_formulario">
                         <input type="hidden" name="id" />
                         <div class="widgetPanel-title">
                             <i class="icon-user">Dados do cliente</i>
@@ -168,11 +188,11 @@
                             </div>
                             <div class="form-row">
                                 <label>Telefone</label>
-                                <input type="text" name="telefone" />
+                                <input type="tel" name="telefone" />
                             </div>
                             <div class="form-row">
                                 <label>E-mail</label>
-                                <input type="text" name="email" />
+                                <input type="email" name="email" />
                             </div>
                         </div>
                         <div class="widgetPanel-title">
@@ -207,52 +227,28 @@
                             </div>                           
                         </div>
                         <div class="widgetPanel-footer">
-                            <button class="buttons green"><i class="icon-ok"></i>Salvar</button>
+                            <button class="buttons green" id="btn_salvar_formularioClientes"><i class="icon-ok"></i>Salvar</button>
                             <button class="buttons red" id="btn_cancelar_formularioClientes"><i class="icon-remove"></i>Cancelar</button>
                         </div>
                     </form>
                 </div>
             </div>
-
-            <div id="produtos" class="mainContainer" style="display: none;">
-                <h2>Produtos</h2>
-                <a href="#page_formProdutos" class="ui-btn ui-icon-plus ui-btn-icon-left">Novo Produto</a>
-                <ul id="listviewProdutos" data-role="listview" data-autodividers="true" data-split-icon="delete" data-filter="true" data-filter-placeholder="Busque pelo nome ou código" data-inset="true">
-                </ul>
-            </div>
-
-            <div id="pedidos" class="mainContainer" style="display: none;">
-                <h2>Pedidos</h2>
-                <a href="#page_formPedidos" id="btn_novo_pagePedidos" class="ui-btn ui-icon-plus ui-btn-icon-left">Novo Pedido</a>
-                <ul id="listviewPedidos" data-role="listview" data-split-icon="gear" data-filter="true" data-filter-placeholder="Busque pelo cliente" data-inset="true">
-                </ul>
-                <div id="popupAcoesPedidos">
-                    <ul data-role="listview" data-inset="true" style="min-width:210px;">
-                        <li data-role="list-divider">Lista de ações</li>
-                        <li><a href="#">Abrir pedido</a></li>
-                        <li><a href="#" class="acaoEstoque">Lançar estoque</a></li>
-                        <li><a href="#">Excluir</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="menuSlider" id="menuSlider">
-                <h3>NAVEGAÇÃO</h3>
-                <ul>
-                    <li><a href="#dashboard">Dashboard</a></li>
-                    <li><a href="#clientes" id="btn_iniciarModulo_clientes">Clientes</a></li>
-                    <li><a href="#produtos" id="btn_iniciarModulo_produtos">Produtos</a></li>
-                    <li><a href="#pedidos" id="btn_iniciarModulo_pedidos">Pedidos</a></li>
-                    <li>Entregas</li>
-                </ul>
-                <h3>CONFIGURAÇÕES</h3>
-                <ul>
-                    <li>Sincronização</li>
-                    <li>Perfil</li>
-                </ul>
-            </div>
         </div>
 
-
+        <div class="menuSlider" id="menuSlider">
+            <h3>NAVEGAÇÃO</h3>
+            <ul>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#clientes" id="btn_iniciarModulo_clientes">Clientes</a></li>
+                <li><a href="#produtos" id="btn_iniciarModulo_produtos">Produtos</a></li>
+                <li><a href="#pedidos" id="btn_iniciarModulo_pedidos">Pedidos</a></li>
+                <li>Entregas</li>
+            </ul>
+            <h3>CONFIGURAÇÕES</h3>
+            <ul>
+                <li>Sincronização</li>
+                <li>Perfil</li>
+            </ul>
+        </div>
     </body>
 </html>

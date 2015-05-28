@@ -11,14 +11,10 @@ var app = {
         $('.dropdown').on('click', this.dropdownToggle);
 
         db.transaction(function (tx) {
-            //CREATE TABLE IF NOT EXISTS clientes (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, nome VARCHAR(100) NOT NULL, documento VARCHAR(20), telefone VARCHAR(15), endereco VARCHAR(50), bairro VARCHAR(50), cidade VARCHAR(50), estado VARCHAR(50), cep VARCHAR(10), observacao TEXT)
-            //CREATE TABLE IF NOT EXISTS produtos (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, produto TEXT NOT NULL, valor_venda REAL NOT NULL, estoque INTEGER, observacao TEXT)
-            //CREATE TABLE IF NOT EXISTS pedidos (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, fk_id_cliente INTEGER NOT NULL, desconto REAL, valor_total REAL, entregue INTEGER, observacao TEXT)
-            //CREATE TABLE IF NOT EXISTS pedidos_itens (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, fk_id_pedido INTEGER NOT NULL, fk_id_produto INTEGER NOT NULL, valor_unitario REAL, qnt INTEGER, valor_total REAL)
-            tx.executeSql("CREATE TABLE IF NOT EXISTS clientes (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, documento TEXT, telefone TEXT, endereco TEXT, bairro TEXT, cidade TEXT, estado TEXT, cep TEXT, observacao TEXT)", []);
-            tx.executeSql("CREATE TABLE IF NOT EXISTS produtos (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, produto TEXT NOT NULL, valor_venda REAL NOT NULL, estoque INTEGER, observacao TEXT)", []);
-            tx.executeSql("CREATE TABLE IF NOT EXISTS pedidos (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, fk_id_cliente INTEGER NOT NULL, desconto REAL, valor_total REAL, entregue INTEGER, observacao TEXT)", []);
-            tx.executeSql("CREATE TABLE IF NOT EXISTS pedidos_itens (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, fk_id_pedido INTEGER NOT NULL, fk_id_produto INTEGER NOT NULL, valor_unitario REAL, quantidade INTEGER, valor_total REAL)", []);
+            tx.executeSql("CREATE TABLE IF NOT EXISTS clientes (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, documento TEXT, telefone TEXT, email TEXT, endereco TEXT, bairro TEXT, cidade TEXT, estado TEXT, cep TEXT, observacao TEXT, editado INTEGER, excluido INTEGER)", []);
+            //tx.executeSql("CREATE TABLE IF NOT EXISTS produtos (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, produto TEXT NOT NULL, valor_venda REAL NOT NULL, estoque INTEGER, observacao TEXT)", []);
+            //tx.executeSql("CREATE TABLE IF NOT EXISTS pedidos (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, fk_id_cliente INTEGER NOT NULL, desconto REAL, valor_total REAL, entregue INTEGER, observacao TEXT)", []);
+            //tx.executeSql("CREATE TABLE IF NOT EXISTS pedidos_itens (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, fk_id_pedido INTEGER NOT NULL, fk_id_produto INTEGER NOT NULL, valor_unitario REAL, quantidade INTEGER, valor_total REAL)", []);
             //tx.executeSql("DROP TABLE clientes");
             //tx.executeSql("DROP TABLE produtos");
             //tx.executeSql("DROP TABLE pedidos");
@@ -28,7 +24,7 @@ var app = {
     displayContainer: function () {
         var hashTag = (window.location.hash == '') ? '#dashboard' : window.location.hash;
 
-        $('.mainContainer').attr('style', 'display: none');
+        $('.pageContainer').attr('style', 'display: none');
         $(hashTag).attr('style', 'display: block');
     },
     openLoader: function () {
@@ -97,7 +93,7 @@ var app = {
         return false;
     },
     openDatabase: function () {
-        db = window.openDatabase("dbApp", "1.0", "Teste de dataBase", 200000);
+        db = window.openDatabase("smartDB", "1.0", "Banco de Dados do smartOffice.", 200000);
     },
     transactionError: function (error) {
         console.log('Aqui msm');
@@ -178,12 +174,11 @@ var app = {
                 throw 'Parametro method dentro do saveRegister inesperado';
             }
             db.transaction(function (tx) {
-                positionID = params.values.length;
-                positionID = positionID - 1;
+                positionID = params.columns.indexOf('id');
                 id = params.values[positionID];
                 params.values.splice(positionID);
                 params.columns.splice(positionID);
-                if (id == '') {
+                if (positionID == '-1') {
                     value = [];
                     for (var i = 0; i < params.columns.length; i++) {
                         value[i] = '?';
