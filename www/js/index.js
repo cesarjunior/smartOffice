@@ -27,19 +27,21 @@ var app = {
         $('.pageContainer').attr('style', 'display: none');
         $(hashTag).attr('style', 'display: block');
     },
-    openLoader: function () {
-        options = {
-            text: "Carregando",
-            textVisible: true,
-            theme: "z",
-            html: ""
-        }
+    showMensagem: function (msg) {
+        $('#contentAlert').show();
+        $('#contentAlert .mensagemAlerta').html(msg);
+        $('#contentAlert .mensagemAlerta').animate({
+            height: '50px'
+        }, 'slow', function () {
+            setTimeout(function () {
+                $('#contentAlert .mensagemAlerta').animate({
+                    height: '0px'
+                }, 'slow', function () {
+                    $('#contentAlert').hide();
+                });
+            }, 2000);
+        });
 
-        $.mobile.loading("show", options);
-        return this;
-    },
-    closeLoader: function () {
-        $.mobile.loading("hide");
         return this;
     },
     toggleSlider: function (action) {
@@ -89,6 +91,7 @@ var app = {
     },
     dropdownToggle: function () {
         app.toggleSlider('close');
+        $('.dropdown-menu').hide();
         $(this).parent().children('.dropdown-menu').toggle();
         return false;
     },
@@ -96,8 +99,7 @@ var app = {
         db = window.openDatabase("smartDB", "1.0", "Banco de Dados do smartOffice.", 200000);
     },
     transactionError: function (error) {
-        console.log('Aqui msm');
-        alert('Msg de erro: ' + error.message + ', C�digo: ' + error.code);
+        app.showMensagem('Msg de erro: ' + error.message + ', C�digo: ' + error.code)
     },
     getRegisters: function (method, params, callback) {
         // method Necess�rio ser Objeto referente aos dados que esta sendo trabalhado
@@ -136,15 +138,18 @@ var app = {
                     throw 'SQL montada de forma errada dendo do getRegisters';
                 }
                 sql = sql + ' FROM ' + method.table;
+
                 if (typeof params.where == 'string') {
-                    sql = sql + ' WHERE ' + params.where;
-                } else if (typeof params.where == 'array') {
-                    sql = sql + ' WHERE ' + params.where.toString();
+                    sql = sql + ' WHERE ' + params.where + "AND excluido = '0'";
+                } else {
+                    sql = sql + ' WHERE excluido = 0';
                 }
+
                 if (typeof params.order == 'string') {
                     sql = sql + ' ORDER BY ' + params.order;
                 }
             }
+            //console.log(sql);
 
             //
             // FIM da rotina de montagem da SQL
@@ -173,28 +178,35 @@ var app = {
             if (typeof method != 'object') {
                 throw 'Parametro method dentro do saveRegister inesperado';
             }
+
+            params.columns.push('editado');
+            params.values.push('1');
+
+            params.columns.push('excluido');
+            params.values.push('0');
+
             db.transaction(function (tx) {
                 positionID = params.columns.indexOf('id');
-                id = params.values[positionID];
-                params.values.splice(positionID);
-                params.columns.splice(positionID);
                 if (positionID == '-1') {
                     value = [];
-                    for (var i = 0; i < params.columns.length; i++) {
-                        value[i] = '?';
-                    }
+                    $.each(params.columns, function () {
+                        value.push('?');
+                    });
                     sql = "INSERT INTO " + method.table + " (" + params.columns.toString() + ") VALUES (" + value.toString() + ")";
                 } else {
+                    id = params.values[positionID];
+                    params.values.splice(positionID);
+                    params.columns.splice(positionID);
                     set = [];
-                    for (var i = 0; i < params.columns.length; i++) {
-                        set[i] = params.columns[i] + ' = ?';
-                    }
+                    $.each(params.columns, function (index, value) {
+                        set.push(value + ' = ?');
+                    });
                     sql = "UPDATE " + method.table + " SET " + set.toString() + " WHERE id = " + id;
                 }
-                //alert(sql);
+
                 tx.executeSql(sql, params.values, function (text, result) {
                     if (typeof callback == 'function') {
-                        if (id == '') {
+                        if (positionID == '-1') {
                             callback(result.insertId);
                         } else {
                             callback(id);

@@ -8,6 +8,8 @@ var clientes = {
         $('#btn_salvar_formularioClientes').on('click', this.salvarFormularioClientes);
         $('#btn_cancelar_formularioClientes').on('click', this.rezeteFormularioClientes);
         $('#btn_voltar_formularioClientes').on('click', this.rezeteFormularioClientes);
+        linkTeste = '#clientes?id=2';
+        console.log(location);
     },
     salvarFormularioClientes: function () {
         params = {
@@ -23,10 +25,10 @@ var clientes = {
         });
 
         app.saveRegister(clientes, params, function () {
+            app.showMensagem('Registro salvo com sucesso.');
             clientes.carregarListaRegistros();
             clientes.rezeteFormularioClientes();
         });
-
         return false;
     },
     carregarListaRegistros: function (callback) {
@@ -41,6 +43,7 @@ var clientes = {
                     conteudoAppend = clientes.modeloAppend.replace('{NOME}', val.nome);
                     conteudoAppend = conteudoAppend.replace('{DOCUMENTO}', val.documento);
                     conteudoAppend = conteudoAppend.replace('{TELEFONE}', val.telefone);
+                    conteudoAppend = conteudoAppend.replace('{LINK-EDITA-REGISTRO}', '?id=' + val.id + '#formularioCliente');
                     $('#listviewClientes').append(conteudoAppend);
                 });
 

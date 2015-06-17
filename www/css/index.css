@@ -56,6 +56,24 @@ h3 {
     text-decoration: none;
 }
 
+.containerAlerta {
+    display: none;
+    position: fixed;
+    width: 100%;
+    bottom: 90px;
+    text-align: center;
+}
+.containerAlerta > .mensagemAlerta {
+    display: inline-block;
+    height: 0px;
+    line-height: 50px;
+    background-color: #000;
+    box-shadow: 1px -1px 5px #888;
+    color: #fff;
+    padding: 0 10px;
+    border-radius: 3px;
+}
+
 .headerContainer {
     background: #4977BC;
     height: 80px;
@@ -63,6 +81,7 @@ h3 {
     color: #fff;
     position: fixed;
     width: 100%;
+    z-index: 1010;
 }
 
 .headerContainer > .headerContainer-title {
