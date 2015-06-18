@@ -130,13 +130,13 @@
                             <a href="#" class="icon-cog icon-large dropdown"></a>
                             <ul class="dropdown-menu left">
                                 <li>
-                                    <a href="{LINK-EDITA-REGISTRO}">
+                                    <a href="#formularioCliente" class="btn_editar_clientes" data-id="{ID-REGISTRO}">
                                         <i class="icon-edit"></i>
                                         Editar
                                     </a>
                                 </li>
                                 <li>
-                                    <a>
+                                    <a href="#clientes" class="btn_deletar_cliente" data-id="{ID-REGISTRO}">
                                         <i class="icon-trash"></i>
                                         Deletar
                                     </a>
@@ -180,7 +180,7 @@
                         <div class="widgetPanel-content">
                             <div class="form-row">
                                 <label>Nome/Razão Social</label>
-                                <input type="text" name="nome" />
+                                <input type="text" name="nome" class="required" />
                             </div>
                             <div class="form-row">
                                 <label>CPF/CNPJ</label>

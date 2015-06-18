@@ -25,6 +25,12 @@ form input
 
 }
 
+form select.error,
+form textarea.error,
+form input.error {
+    border-color: #b94a48;
+}
+
 .form-row {
     padding:12px 6px;
 }

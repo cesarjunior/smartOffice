@@ -101,21 +101,23 @@ var app = {
     transactionError: function (error) {
         app.showMensagem('Msg de erro: ' + error.message + ', C�digo: ' + error.code)
     },
-    getRegisters: function (method, params, callback) {
+    fetchRegisters: function (params, callback) {
         // method Necess�rio ser Objeto referente aos dados que esta sendo trabalhado
-        // params � esperado STRING para passar a SQL completa ou Objeto esperando columns, where e order como itens
+        // params � esperado STRING para passar a SQL completa ou Objeto esperando table, columns, where e order como itens
         // item columns do params pode ser esperado string ou array assim como where e order � esperado apenas string
 
         returnArray = [];
         try {
-            if (typeof method != 'object') {
-                throw 'Parametro method dentro do getRegister n�o � Objeto.';
-            }
+
             if (typeof params != 'string' && typeof params != 'object') {
                 throw 'Parametro params dentro do getRegisters inesperado.';
             } else {
                 if (typeof params == 'string' && params.length < 17) {
                     throw 'Parametro params contendo SQL inesperado.';
+                } else if (typeof params == 'object') {
+                    if (params.table == '') {
+                        throw 'Parametro params.table inesperado dentro do fetchRegister';
+                    }
                 }
             }
             //
@@ -137,10 +139,17 @@ var app = {
                 if (sql.length == 0) {
                     throw 'SQL montada de forma errada dendo do getRegisters';
                 }
-                sql = sql + ' FROM ' + method.table;
+
+                sql = sql + ' FROM ' + params.table;
 
                 if (typeof params.where == 'string') {
                     sql = sql + ' WHERE ' + params.where + "AND excluido = '0'";
+                } else if (typeof params.where == 'array') {
+                    sql = sql + ' WHERE ';
+                    $.each(params.where, function (index, val) {
+                        sql = sql + val + ' AND ';
+                    });
+                    sql = sql + 'excluido = 0';
                 } else {
                     sql = sql + ' WHERE excluido = 0';
                 }
@@ -163,7 +172,30 @@ var app = {
                     if (typeof callback == 'function') {
                         callback(returnArray);
                     }
+
                     return returnArray;
+                });
+            }, app.transactionError);
+        } catch (error) {
+            alert('Error: ' + error);
+        }
+    },
+    findRegister: function (table, id, callback) {
+        try {
+            sql = 'SELECT * FROM ' + table + ' WHERE id = ?';
+            db.transaction(function (tx) {
+                tx.executeSql(sql, [id], function (text, result) {
+                    if (result.rows.length == 1) {
+                        returnResult = result.rows.item(0);
+                    } else {
+                        throw 'Resultados inesperado para o metodo de consulta findRegister';
+                    }
+
+                    if (typeof callback == 'function') {
+                        callback(returnResult);
+                    }
+
+                    return returnResult;
                 });
             }, app.transactionError);
         } catch (error) {
@@ -195,14 +227,16 @@ var app = {
                     sql = "INSERT INTO " + method.table + " (" + params.columns.toString() + ") VALUES (" + value.toString() + ")";
                 } else {
                     id = params.values[positionID];
-                    params.values.splice(positionID);
-                    params.columns.splice(positionID);
+                    params.values.splice(positionID, 1);
+                    params.columns.splice(positionID, 1);
                     set = [];
                     $.each(params.columns, function (index, value) {
                         set.push(value + ' = ?');
                     });
+
                     sql = "UPDATE " + method.table + " SET " + set.toString() + " WHERE id = " + id;
                 }
+                //console.log(sql);
 
                 tx.executeSql(sql, params.values, function (text, result) {
                     if (typeof callback == 'function') {
@@ -219,20 +253,21 @@ var app = {
         }
         return;
     },
-    deleteRegister: function (method, id, callback) {
+    deleteRegister: function (table, id, callback) {
         try {
-            if (typeof method != 'object') {
-                throw 'Parametro method dentro do deleteRegister inesperado';
+            if (table == '') {
+                throw 'Parametro table dentro do delete Register inválido.';
             }
             if (id == '') {
-                throw 'Parametro id dentro do deleteRegister vazio.';
+                throw 'Parametro id dentro do deleteRegister inválido.';
             }
+            
             db.transaction(function (tx) {
-                var sql = "DELETE FROM " + method.table + " WHERE id = ?";
+                sql = "UPDATE " + table + " SET excluido = 1, editado = 1 WHERE id = ?";
+                console.log(id);
                 tx.executeSql(sql, [id], function (text, result) {
                     if (typeof callback == 'function') {
                         callback();
-                        alert('Item removido com sucesso.');
                     }
                 });
             }, app.transactionError);
