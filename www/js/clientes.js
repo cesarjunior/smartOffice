@@ -100,7 +100,7 @@ var clientes = {
         $('#modelClientes_formulario input').each(function (index) {
             $(this).val('');
         });
-        $(location).attr('href', '#clientes');
+        //$(location).attr('href', '#clientes');
         return false;
     }
 }

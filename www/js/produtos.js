@@ -1,75 +1,43 @@
 var produtos = {
-    table: 'produtos',
-    primaryKey: 'id',
-    returnRegisters: [],
+    modeloAppend: '',
     init: function () {
-        app.getRegisters(produtos, {order: 'produto ASC'}, function (resultArray) {
-            produtos.loadRegister(resultArray);
-        });
-
-        $('#btn_salvar_pageFormProdutos').on('tap', function () {
-            params = {
-                columns: [
-                    'produto',
-                    'valor_venda',
-                    'estoque',
-                    'observacao',
-                    'id'
-                ],
-                values: [
-                    $('#formulario_pageFormProdutos input[name="produto"]').val(),
-                    $('#formulario_pageFormProdutos input[name="valor_venda"]').val(),
-                    parseInt($('#formulario_pageFormProdutos input[name="estoque"]').val()),
-                    $('#formulario_pageFormProdutos textarea[name="observacao"]').val(),
-                    $('#formulario_pageFormProdutos input[name="id"]').val()
-                ]
-
-            };
-            app.saveRegister(produtos, params, function () {
-                app.getRegisters(produtos, {order: 'produto ASC'}, function (resultArray) {
-                    produtos.loadRegister(resultArray);
-                });
-            });
-            produtos.rezetePageFormProdutos();
-        });
-
-        $('#btn_cancelar_pageFormProdutos').on('tap', function () {
-            produtos.rezetePageFormProdutos();
-        });
+        $('#btn_iniciarModulo_produtos').on('click', this.carregarListaRegistros);
     },
-    loadRegister: function (resultArray, callback) {
-        $('#listviewProdutos').empty();
-        if (resultArray.length) {
-            $.each(resultArray, function (index, val) {
-                $('#listviewProdutos').append('<li><a href="#page_formProdutos" class="editarProduto" id="' + val.id + '" indexArray="' + index + '"><h2>' + val.produto + '</h2><p>Estoque: ' + val.estoque + '</p></a><a href="delete" id="' + val.id + '" indexArray="' + index + '">Delete</a></li>');
-            });
-            $("#listviewProdutos").listview('refresh');
-            $('#listviewProdutos li .editarProduto').on('tap', function () {
-                indexArray = parseInt($(this).attr('indexArray'));
-                parameters = resultArray[indexArray];
-                $('#formulario_pageFormProdutos input[name="id"]').val(parameters.id);
-                $('#formulario_pageFormProdutos input[name="produto"]').val(parameters.produto);
-                $('#formulario_pageFormProdutos input[name="valor_venda"]').val(parameters.valor_venda);
-                $('#formulario_pageFormProdutos input[name="estoque"]').val(parameters.estoque);
-                $('#formulario_pageFormProdutos textarea[name="observacao"]').val(parameters.observacao);
-            });
+    carregarListaRegistros: function (callback) {
 
-            $('#listviewProdutos li a[href="delete"]').on('tap', function () {
-                if (confirm('Deseja realmente excluir este item ?')) {
-                    app.deleteRegister(produtos, $(this).attr('id'), function () {
-                        app.getRegisters(produtos, {order: 'produto ASC'}, function (resultArray) {
-                            produtos.loadRegister(resultArray);
-                        });
-                    });
-                }
-                return false;
-            });
-        } else {
-            $('#listviewProdutos').append('<li>Nenhum registro localizado no momento.</li>');
+        if (produtos.modeloAppend == '') {
+            clientes.modeloAppend = $("#listviewProdutos").html();
         }
-        if (typeof callback == 'function') {
-            callback();
-        }
+
+        app.fetchRegisters({table: 'produtos', order: 'produto ASC'}, function (resultArray) {
+            $('#listviewProdutos').empty();
+            if (resultArray.length) {
+                $.each(resultArray, function (index, val) {
+                    conteudoAppend = clientes.modeloAppend.replace('{produto}', val.produto);
+                    //conteudoAppend = conteudoAppend.replace('{DOCUMENTO}', val.documento ? val.documento : '');
+                    //conteudoAppend = conteudoAppend.replace('{TELEFONE}', val.telefone ? val.telefone : '');
+                    conteudoAppend = conteudoAppend.replace(/{ID-REGISTRO}/g, val.id);
+                    $('#listviewProdutos').append(conteudoAppend);
+                });
+
+                $('.dropdown').off('click');
+                $('.dropdown').on('click', app.dropdownToggle);
+
+                //$('.btn_editar_clientes').off('click');
+                //$('.btn_editar_clientes').on('click', clientes.populateFormularioCliente);
+
+
+                //$('.btn_deletar_cliente').off('click');
+                //$('.btn_deletar_cliente').on('click', clientes.deleteCliente);
+
+            } else {
+                $('#listviewProdutos').append('<li>Nenhum registro localizado no momento.</li>');
+            }
+            //app.closeLoader();
+            if (typeof callback == 'function') {
+                callback();
+            }
+        });
     },
     rezetePageFormProdutos: function () {
         $('#formulario_pageFormProdutos input[name="id"]').val('');

@@ -2,17 +2,18 @@ var db;
 var app = {
     init: function () {
         clientes.init();
-        //produtos.init();
+        produtos.init();
         //pedidos.init();
         app.openDatabase();
         app.displayContainer();
+        $('a, .link').on('click', this.linkNavigate);
         $(window).on('popstate', this.displayContainer);
         $('.content-toggle').on('click', this.toggleContent);
         $('.dropdown').on('click', this.dropdownToggle);
 
         db.transaction(function (tx) {
             tx.executeSql("CREATE TABLE IF NOT EXISTS clientes (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, documento TEXT, telefone TEXT, email TEXT, endereco TEXT, bairro TEXT, cidade TEXT, estado TEXT, cep TEXT, observacao TEXT, editado INTEGER, excluido INTEGER)", []);
-            //tx.executeSql("CREATE TABLE IF NOT EXISTS produtos (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, produto TEXT NOT NULL, valor_venda REAL NOT NULL, estoque INTEGER, observacao TEXT)", []);
+            tx.executeSql("CREATE TABLE IF NOT EXISTS produtos (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, produto TEXT NOT NULL, valor_venda REAL NOT NULL, estoque INTEGER, observacao TEXT, editado INTEGER, excluido INTEGER)", []);
             //tx.executeSql("CREATE TABLE IF NOT EXISTS pedidos (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, fk_id_cliente INTEGER NOT NULL, desconto REAL, valor_total REAL, entregue INTEGER, observacao TEXT)", []);
             //tx.executeSql("CREATE TABLE IF NOT EXISTS pedidos_itens (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, fk_id_pedido INTEGER NOT NULL, fk_id_produto INTEGER NOT NULL, valor_unitario REAL, quantidade INTEGER, valor_total REAL)", []);
             //tx.executeSql("DROP TABLE clientes");
@@ -21,11 +22,23 @@ var app = {
             //tx.executeSql("DROP TABLE pedidos_itens");
         }, app.transactionError);
     },
+    linkNavigate: function () {
+        link = $(this).attr('href');
+        if (link != '' && link != '#') {
+            if ($(this).attr('data-rel') == 'back') {
+                window.history.back();
+            } else {
+                history.pushState(null, null, link);
+                app.displayContainer();
+            }
+        }
+        return false;
+    },
     displayContainer: function () {
         var hashTag = (window.location.hash == '') ? '#dashboard' : window.location.hash;
 
-        $('.pageContainer').attr('style', 'display: none');
-        $(hashTag).attr('style', 'display: block');
+        $('.pageContainer').fadeOut();
+        $(hashTag).fadeIn('slow');
     },
     showMensagem: function (msg) {
         $('#contentAlert').show();
@@ -261,7 +274,7 @@ var app = {
             if (id == '') {
                 throw 'Parametro id dentro do deleteRegister inválido.';
             }
-            
+
             db.transaction(function (tx) {
                 sql = "UPDATE " + table + " SET excluido = 1, editado = 1 WHERE id = ?";
                 console.log(id);
