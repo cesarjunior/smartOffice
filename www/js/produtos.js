@@ -2,18 +2,42 @@ var produtos = {
     modeloAppend: '',
     init: function () {
         $('#btn_iniciarModulo_produtos').on('click', this.carregarListaRegistros);
+        $('#btn_salvar_formularioProduto').on('click', this.salvarFormularioProduto);
+        $('#btn_cancelar_formularioProduto').on('click', this.rezeteFormularioProduto);
+        $('#btn_voltar_formularioProdutos').on('click', this.rezeteFormularioProduto);
+    },
+    salvarFormularioProduto: function () {
+        params = {
+            table: 'produtos',
+            columns: [],
+            values: []
+        };
+
+        $('#modelProdutos_formulario input').each(function () {
+            if ($(this).val() != '') {
+                params.columns.push($(this).attr('name'));
+                params.values.push($(this).val());
+            }
+        });
+
+        app.saveRegister(params, function () {
+            app.showMensagem('Registro salvo com sucesso.');
+            produtos.carregarListaRegistros();
+            produtos.rezeteFormularioProduto();
+        });
+        return false;
     },
     carregarListaRegistros: function (callback) {
 
         if (produtos.modeloAppend == '') {
-            clientes.modeloAppend = $("#listviewProdutos").html();
+            produtos.modeloAppend = $("#listviewProdutos").html();
         }
 
         app.fetchRegisters({table: 'produtos', order: 'produto ASC'}, function (resultArray) {
             $('#listviewProdutos').empty();
             if (resultArray.length) {
                 $.each(resultArray, function (index, val) {
-                    conteudoAppend = clientes.modeloAppend.replace('{produto}', val.produto);
+                    conteudoAppend = produtos.modeloAppend.replace('{PRODUTO}', val.produto);
                     //conteudoAppend = conteudoAppend.replace('{DOCUMENTO}', val.documento ? val.documento : '');
                     //conteudoAppend = conteudoAppend.replace('{TELEFONE}', val.telefone ? val.telefone : '');
                     conteudoAppend = conteudoAppend.replace(/{ID-REGISTRO}/g, val.id);
@@ -23,12 +47,12 @@ var produtos = {
                 $('.dropdown').off('click');
                 $('.dropdown').on('click', app.dropdownToggle);
 
-                //$('.btn_editar_clientes').off('click');
-                //$('.btn_editar_clientes').on('click', clientes.populateFormularioCliente);
+                $('.btn_editar_produtos').off('click');
+                $('.btn_editar_produtos').on('click', produtos.populateFormularioProduto);
 
 
-                //$('.btn_deletar_cliente').off('click');
-                //$('.btn_deletar_cliente').on('click', clientes.deleteCliente);
+                $('.btn_deletar_produtos').off('click');
+                $('.btn_deletar_produtos').on('click', produtos.deleteProduto);
 
             } else {
                 $('#listviewProdutos').append('<li>Nenhum registro localizado no momento.</li>');
@@ -39,11 +63,29 @@ var produtos = {
             }
         });
     },
-    rezetePageFormProdutos: function () {
-        $('#formulario_pageFormProdutos input[name="id"]').val('');
-        $('#formulario_pageFormProdutos input[name="produto"]').val('');
-        $('#formulario_pageFormProdutos input[name="valor_venda"]').val('');
-        $('#formulario_pageFormProdutos input[name="estoque"]').val('');
-        $('#formulario_pageFormProdutos textarea[name="observacao"]').val('');
+    populateFormularioProduto: function () {
+        app.findRegister('produtos', $(this).attr('data-id'), function (result) {
+            $.each(result, function (index, val) {
+                if (val != '') {
+                    $('#modelProdutos_formulario input[name="' + index + '"]').val(val);
+                }
+            });
+        });
+    },
+    deleteProduto: function () {
+        if (confirm('Deseja realmente excluir este item ?')) {
+            app.deleteRegister('produtos', $(this).attr('data-id'), function () {
+                app.showMensagem('Registro removido com sucesso.');
+                clientes.carregarListaRegistros();
+            });
+        }
+        return false;
+    },
+    rezeteFormularioProduto: function () {
+        $('#modelProdutos_formulario input').each(function () {
+            $(this).val('');
+        });
+        window.history.back();
+        return false;
     }
 }

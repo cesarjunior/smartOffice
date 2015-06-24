@@ -6,7 +6,6 @@ var app = {
         //pedidos.init();
         app.openDatabase();
         app.displayContainer();
-        $('a, .link').on('click', this.linkNavigate);
         $(window).on('popstate', this.displayContainer);
         $('.content-toggle').on('click', this.toggleContent);
         $('.dropdown').on('click', this.dropdownToggle);
@@ -21,18 +20,6 @@ var app = {
             //tx.executeSql("DROP TABLE pedidos");
             //tx.executeSql("DROP TABLE pedidos_itens");
         }, app.transactionError);
-    },
-    linkNavigate: function () {
-        link = $(this).attr('href');
-        if (link != '' && link != '#') {
-            if ($(this).attr('data-rel') == 'back') {
-                window.history.back();
-            } else {
-                history.pushState(null, null, link);
-                app.displayContainer();
-            }
-        }
-        return false;
     },
     displayContainer: function () {
         var hashTag = (window.location.hash == '') ? '#dashboard' : window.location.hash;
@@ -215,13 +202,10 @@ var app = {
             alert('Error: ' + error);
         }
     },
-    saveRegister: function (method, params, callback) {
+    saveRegister: function (params, callback) {
         try {
             if (typeof params != 'object') {
                 throw 'Parametro params dentro do saveRegister inesperado';
-            }
-            if (typeof method != 'object') {
-                throw 'Parametro method dentro do saveRegister inesperado';
             }
 
             params.columns.push('editado');
@@ -237,7 +221,7 @@ var app = {
                     $.each(params.columns, function () {
                         value.push('?');
                     });
-                    sql = "INSERT INTO " + method.table + " (" + params.columns.toString() + ") VALUES (" + value.toString() + ")";
+                    sql = "INSERT INTO " + params.table + " (" + params.columns.toString() + ") VALUES (" + value.toString() + ")";
                 } else {
                     id = params.values[positionID];
                     params.values.splice(positionID, 1);
@@ -247,7 +231,7 @@ var app = {
                         set.push(value + ' = ?');
                     });
 
-                    sql = "UPDATE " + method.table + " SET " + set.toString() + " WHERE id = " + id;
+                    sql = "UPDATE " + params.table + " SET " + set.toString() + " WHERE id = " + id;
                 }
                 //console.log(sql);
 

@@ -1,7 +1,4 @@
 var clientes = {
-    table: 'clientes',
-    primaryKey: 'id',
-    returnRegisters: [],
     modeloAppend: '',
     init: function () {
         $('#btn_iniciarModulo_clientes').on('click', this.carregarListaRegistros);
@@ -19,9 +16,10 @@ var clientes = {
                 $(this).removeClass('error');
             }
         });
-        
+
         if (validate) {
             params = {
+                table: 'clientes',
                 columns: [],
                 values: []
             };
@@ -33,7 +31,7 @@ var clientes = {
                 }
             });
 
-            app.saveRegister(clientes, params, function () {
+            app.saveRegister(params, function () {
                 app.showMensagem('Registro salvo com sucesso.');
                 clientes.carregarListaRegistros();
                 clientes.rezeteFormularioClientes();
@@ -95,12 +93,13 @@ var clientes = {
                 clientes.carregarListaRegistros();
             });
         }
+        return false;
     },
     rezeteFormularioClientes: function () {
-        $('#modelClientes_formulario input').each(function (index) {
+        $('#modelClientes_formulario input').each(function () {
             $(this).val('');
         });
-        //$(location).attr('href', '#clientes');
+        window.history.back();
         return false;
     }
 }

@@ -164,7 +164,7 @@
 
         <div data-role="page" id="formularioCliente" class="pageContainer" style="display: none;">
             <div class="headerContainer">
-                <div class="headerContainer-title link" id="btn_voltar_formularioClientes" data-rel="back">
+                <div class="headerContainer-title" id="btn_voltar_formularioClientes">
                     <i class="icon-chevron-left"></i>
                     <h1>Registro de clientes</h1>
                 </div>
@@ -258,13 +258,13 @@
                             <a href="#" class="icon-cog icon-large dropdown"></a>
                             <ul class="dropdown-menu left">
                                 <li>
-                                    <a href="#" class="btn_editar_clientes" data-id="{ID-REGISTRO}">
+                                    <a href="#formularioProduto" class="btn_editar_produtos" data-id="{ID-REGISTRO}">
                                         <i class="icon-edit"></i>
                                         Editar
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="btn_deletar_cliente" data-id="{ID-REGISTRO}">
+                                    <a href="#produtos" class="btn_deletar_produtos" data-id="{ID-REGISTRO}">
                                         <i class="icon-trash"></i>
                                         Deletar
                                     </a>
@@ -285,7 +285,7 @@
 
         <div data-role="page" id="formularioProduto" class="pageContainer" style="display: none;">
             <div class="headerContainer">
-                <div class="headerContainer-title link" id="btn_voltar_formularioProdutos" data-rel="back">
+                <div class="headerContainer-title" id="btn_voltar_formularioProdutos">
                     <i class="icon-chevron-left"></i>
                     <h1>Registro de Produto</h1>
                 </div>
@@ -306,7 +306,7 @@
                             </div>
                             <div class="form-row">
                                 <label>Preço de Venda</label>
-                                <input type="text" name="valor_venda" id="precoVenda" data-decimal="," data-thousands="." data-prefix="R$ " />
+                                <input type="text" name="valor_venda" id="precoVenda" data-decimal="," data-thousands="" data-prefix="R$ " />
                             </div>
                             <div class="form-row">
                                 <label>Estoque</label>
@@ -314,8 +314,8 @@
                             </div>
                         </div>
                         <div class="widgetPanel-footer">
-                            <button class="buttons green" id="btn_salvar_formularioClientes"><i class="icon-ok"></i>Salvar</button>
-                            <button class="buttons red" id="btn_cancelar_formularioClientes"><i class="icon-remove"></i>Cancelar</button>
+                            <button class="buttons green" id="btn_salvar_formularioProduto"><i class="icon-ok"></i>Salvar</button>
+                            <button class="buttons red" id="btn_cancelar_formularioProduto"><i class="icon-remove"></i>Cancelar</button>
                         </div>
                     </form>
                 </div>
