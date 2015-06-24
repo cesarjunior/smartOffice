@@ -47,6 +47,9 @@
                 });
                 
                 $("#precoVenda").maskMoney({affixesStay: false});
+                $('#precoVenda').on('touchstart', function(e) {
+                    alert(e);
+                });
             });
         </script>
     </head>
