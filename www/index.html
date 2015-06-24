@@ -47,7 +47,7 @@
                 });
                 
                 $("#precoVenda").maskMoney({affixesStay: false});
-                $('#precoVenda').on('touchend', function(e) {
+                $('#precoVenda').on('change keyup', function(e) {
                     alert($(this).val());
                 });
             });
