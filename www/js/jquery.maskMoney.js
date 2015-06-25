@@ -64,6 +64,7 @@
             return this.each(function () {
                 var $input = $(this), settings,
                     onFocusValue;
+                    console.log($input);
 
                 // data-* api
                 settings = $.extend({}, parameters);
