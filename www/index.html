@@ -48,7 +48,8 @@
                 
                 ///$("#precoVenda").maskMoney({affixesStay: false});
                 $('#precoVenda').on('change keydown keyup', function(e) {
-                    $('#inputTeste').val(e.keyCode);
+                    key = e.which || e.charCode || e.keyCode
+                    $('#inputTeste').val(key);
                     return false;
                 });
             });
@@ -310,7 +311,7 @@
                             </div>
                             <div class="form-row">
                                 <label>Preço de Venda</label>
-                                <input type="text" name="valor_venda" id="precoVenda" data-decimal="," data-thousands="" data-prefix="R$ " />
+                                <input type="tel" name="valor_venda" id="precoVenda" data-decimal="," data-thousands="" data-prefix="R$ " />
                             </div>
                             <div class="form-row">
                                 <label>Estoque</label>
