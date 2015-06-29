@@ -47,37 +47,7 @@
                 });
 
                 ///$("#precoVenda").maskMoney({affixesStay: false});
-                $('#precoVenda').on('change keyup', function (e) {
-                    valor = $(this).val();
-                    valor = valor.replace(/\D/g, '');
-                    
-                    if (valor.length == 0) {
-                        valor = '000';
-                    } else {
-                        if (valor.length < 3) {
-                            for (i = valor.length; i < 3; i++) {
-                                valor = '0' + valor;
-                            }
 
-                        }
-                        if (valor.length > 3) {
-                            for (i = 1; i <= valor.length; i++) {
-                                if (valor.length > 3) {
-                                    if (valor.slice(0, 1) == 0) {
-                                        valor = valor.slice(1);
-                                    } else {
-                                        break;
-                                    }
-                                }
-                            }
-
-                        }
-                    }
-                    antiVirgula = valor.slice(0, valor.length - 2);
-                    posVirgula = valor.slice(-2);
-                    valor = antiVirgula + ',' + posVirgula;
-                    $(this).val(valor);
-                });
             });
         </script>
     </head>
@@ -333,11 +303,11 @@
                         <div class="widgetPanel-content">
                             <div class="form-row">
                                 <label>Produto</label>
-                                <input type="text" name="produto" id="inputTeste" class="required" />
+                                <input type="text" name="produto" class="required" />
                             </div>
                             <div class="form-row">
                                 <label>Preço de Venda</label>
-                                <input type="tel" name="valor_venda" id="precoVenda" data-decimal="," data-thousands="" data-prefix="R$ " />
+                                <input type="tel" name="valor_venda" id="precoVenda" />
                             </div>
                             <div class="form-row">
                                 <label>Estoque</label>
@@ -347,6 +317,169 @@
                         <div class="widgetPanel-footer">
                             <button class="buttons green" id="btn_salvar_formularioProduto"><i class="icon-ok"></i>Salvar</button>
                             <button class="buttons red" id="btn_cancelar_formularioProduto"><i class="icon-remove"></i>Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div data-role="page" id="pedidos" class="pageContainer" style="display: none;">
+            <div class="headerContainer">
+                <div class="headerContainer-title openMenuSlider">
+                    <i class="icon-reorder"></i>
+                    <h1>smartOffice</h1>
+                </div>
+                <div class="headerContainer-tools">
+                    <ul>
+                        <li><a href="#formularioPedido" class="icon-plus btn_openWindow_formularioPedido"></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mainContainer">
+                <ul class="listview" id="listviewPedidos">
+                    <li>
+                        <div class="listConteudo">
+                            <h1>{CLIENTE}</h1>
+                        </div>
+                        <div class="iconeAcao">
+                            <a href="#" class="icon-cog icon-large dropdown"></a>
+                            <ul class="dropdown-menu left">
+                                <li>
+                                    <a href="#formularioPedido" class="btn_editar_pedido btn_openWindow_formularioPedido" data-id="{ID-REGISTRO}">
+                                        <i class="icon-edit"></i>
+                                        Editar
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#pedidos" class="btn_deletar_pedido" data-id="{ID-REGISTRO}">
+                                        <i class="icon-trash"></i>
+                                        Deletar
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div data-role="page" id="formularioPedido" class="pageContainer" style="display: none;">
+            <div class="headerContainer">
+                <div class="headerContainer-title" id="btn_voltar_formularioPedido">
+                    <i class="icon-chevron-left"></i>
+                    <h1>Registro de Pedidos</h1>
+                </div>
+                <div class="headerContainer-tools">
+                </div>
+            </div>
+            <div class="mainContainer">
+                <div class="widgetPanel">
+                    <form id="modelPedidos_formulario">
+                        <input type="hidden" name="id" />
+                        <div class="widgetPanel-title">
+                            <i class="icon-user">Dados do Pedido</i>
+                        </div>
+                        <div class="widgetPanel-content">
+                            <div class="form-row">
+                                <label>Cliente</label>
+                                <select name="cliente">
+                                    <option value="" selected="selected">Selecione um Cliente</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="widgetPanel-title">
+                            <i class="icon-user">Itens do Pedido</i>
+                            <div class="tools">
+                                <a href="#formularioPedidoEscolheItem" class="icon-plus" id="btn_openWindow_escolherItem"></a>
+                            </div>
+                        </div>
+                        <div class="widgetPanel-content">
+                            <ul class="listview" id="listviewItensDoPedido">
+                                <li>
+                                    <div class="listConteudo">
+                                        {PRODUTO}<br>
+                                        {QUANTIDADE} * {VALOR_UNITARIO} = {VALOR_TOTAL}
+                                    </div>
+                                    <div class="iconeAcao">
+                                        <a href="#" class="icon-cog icon-large dropdown"></a>
+                                        <ul class="dropdown-menu left">
+                                            <li>
+                                                <a href="#formularioPedido" class="btn_deletar_itemDoPedido" data-index="{indexArray}">
+                                                    <i class="icon-trash"></i>
+                                                    Remover item
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="widgetPanel-footer">
+                            <button class="buttons green" id="btn_salvar_formularioPedido"><i class="icon-ok"></i>Salvar</button>
+                            <button class="buttons red" id="btn_cancelar_formularioPedido"><i class="icon-remove"></i>Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div data-role="page" id="formularioPedidoEscolheItem" class="pageContainer" style="display: none;">
+            <div class="headerContainer">
+                <div class="headerContainer-title" id="btn_voltar_formularioPedidoEscolheItem">
+                    <i class="icon-chevron-left"></i>
+                    <h1>Adicionar item ao pedido</h1>
+                </div>
+                <div class="headerContainer-tools">
+                </div>
+            </div>
+            <div class="mainContainer">
+                <ul class="listview" id="listviewPedidoEscolheItem">
+                    <li class="btn_openWindow_adicionarItem" data-id="{ID-REGISTRO}">
+                        <div class="listConteudo">
+                            <h1>{PRODUTO}</h1>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div data-role="page" id="formularioPedidoAdicionarItem" class="pageContainer" style="display: none;">
+            <div class="headerContainer">
+                <div class="headerContainer-title" id="btn_voltar_formularioPedidoAdicionarItem">
+                    <i class="icon-chevron-left"></i>
+                    <h1>Adicionar item ao pedido</h1>
+                </div>
+                <div class="headerContainer-tools">
+                </div>
+            </div>
+            <div class="mainContainer">
+                <div class="widgetPanel">
+                    <form id="modelPedidos_formularioAdicionarItem">
+                        <input type="hidden" name="fk_id_produto" />
+                        <div class="widgetPanel-title">
+                            <i class="icon-user">Dados do Produto</i>
+                        </div>
+                        <div class="widgetPanel-content">
+                            <div class="form-row">
+                                <label>Produto</label>
+                                <input type="text" name="produto" />
+                            </div>
+                            <div class="form-row">
+                                <label>Preço de Venda</label>
+                                <input type="tel" name="valor_unitario" id="calculaValorUnitario" class="maskMoney" />
+                            </div>
+                            <div class="form-row">
+                                <label>Quantidade</label>
+                                <input type="tel" name="quantidade" id="calculaQuantidade" />
+                            </div>
+                            <div class="form-row">
+                                <label>Total</label>
+                                <input type="tel" name="valor_total" id="calculaValorTotal" class="maskMoney" />
+                            </div>
+                        </div>
+                        <div class="widgetPanel-footer">
+                            <button class="buttons green" id="btn_salvar_formularioPedidoAdicionarItem"><i class="icon-ok"></i>Concluir</button>
+                            <button class="buttons red" id="btn_cancelar_formularioPedidoAdicionarItem"><i class="icon-remove"></i>Cancelar</button>
                         </div>
                     </form>
                 </div>

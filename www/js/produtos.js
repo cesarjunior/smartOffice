@@ -5,6 +5,7 @@ var produtos = {
         $('#btn_salvar_formularioProduto').on('click', this.salvarFormularioProduto);
         $('#btn_cancelar_formularioProduto').on('click', this.rezeteFormularioProduto);
         $('#btn_voltar_formularioProdutos').on('click', this.rezeteFormularioProduto);
+        $('#precoVenda').on('change keyup', app.maskMoney);
     },
     salvarFormularioProduto: function () {
         params = {
@@ -16,7 +17,11 @@ var produtos = {
         $('#modelProdutos_formulario input').each(function () {
             if ($(this).val() != '') {
                 params.columns.push($(this).attr('name'));
-                params.values.push($(this).val());
+                if ($(this).attr('name') == 'valor_venda') {
+                    params.values.push(app.formatPrice($(this).val(), 1));
+                } else {
+                    params.values.push($(this).val());
+                }
             }
         });
 
@@ -67,7 +72,11 @@ var produtos = {
         app.findRegister('produtos', $(this).attr('data-id'), function (result) {
             $.each(result, function (index, val) {
                 if (val != '') {
-                    $('#modelProdutos_formulario input[name="' + index + '"]').val(val);
+                    if (index == 'valor_venda') {
+                        $('#modelProdutos_formulario input[name="' + index + '"]').val(app.formatPrice(val, 2));
+                    } else {
+                        $('#modelProdutos_formulario input[name="' + index + '"]').val(val);
+                    }
                 }
             });
         });
@@ -76,7 +85,7 @@ var produtos = {
         if (confirm('Deseja realmente excluir este item ?')) {
             app.deleteRegister('produtos', $(this).attr('data-id'), function () {
                 app.showMensagem('Registro removido com sucesso.');
-                clientes.carregarListaRegistros();
+                produtos.carregarListaRegistros();
             });
         }
         return false;

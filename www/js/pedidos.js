@@ -1,274 +1,203 @@
 var pedidos = {
-    table: 'pedidos',
-    primaryKey: 'id',
+    modeloAppend: '',
+    modeloAppendItens: '',
+    modeloItensPedido: '',
     pedidoItens: [],
+    findIndexItem: false,
     init: function () {
-        pedidos.loadRegister();
-
-        //$.mobile.navigate( "#page_formPedidos" );
-
-        $('#btn_novo_pagePedidos').on('tap', function () {
-            pedidos.populateRegisterClientes();
-            pedidos.pedidoItens = [];
-            pedidos.loadItensPedido();
+        $('#btn_iniciarModulo_pedidos').on('click', this.carregarListaRegistros);
+        $('.btn_openWindow_formularioPedido').on('click', function () {
+            pedidos.populateSelectClientes();
+            pedidos.loadListPedidoItens();
         });
-
-        $('#btn_cancelar_pageFormPedidos').on('tap', function () {
-            pedidos.rezetaPagePedido();
+        $('#btn_cancelar_formularioPedido, #btn_voltar_formularioPedido').on('click', this.rezeteFormularioPedido);
+        $('#btn_cancelar_formularioPedidoAdicionarItem, #btn_voltar_formularioPedidoAdicionarItem').on('click', this.rezeteFormularioPedidoAdicionarItem);
+        $('#btn_voltar_formularioPedidoEscolheItem').on('click', function () {
+            window.history.back();
         });
+        $('#btn_openWindow_escolherItem').on('click', this.loadListAdicionarProdutos);
+        $('.maskMoney').on('change keyup', app.maskMoney);
+        $('#calculaQuantidade').on('change keyup', this.calculaQuantidadeAdicionar);
+        $('#btn_salvar_formularioPedidoAdicionarItem').on('click', this.action_adicionarItemEscolhido);
+    },
+    carregarListaRegistros: function (callback) {
+        if (pedidos.modeloAppend == '') {
+            pedidos.modeloAppend = $("#listviewPedidos").html();
+        }
+        sql = "SELECT p.*, c.nome FROM pedidos AS p INNER JOIN clientes AS c ON p.fk_id_cliente = c.id ORDER BY p.id DESC";
+        app.fetchRegisters(sql, function (resultArray) {
+            $('#listviewPedidos').empty();
+            if (resultArray.length) {
+                $.each(resultArray, function (index, val) {
+                    conteudoAppend = pedidos.modeloAppend.replace('{CLIENTE}', val.nome);
+                    conteudoAppend = conteudoAppend.replace(/{ID-REGISTRO}/g, val.id);
+                    $('#listviewPedidos').append(conteudoAppend);
+                });
 
-        $('#btn_salvar_pageFormPedidos').on('tap', function () {
-            params = {
-                columns: [
-                    'fk_id_cliente',
-                    'valor_total',
-                    'entregue',
-                    'observacao',
-                    'id'
-                ],
-                values: [
-                    $('#formulario_pageFormPedidos select[name="clientes"]').val(),
-                    $('#formulario_pageFormPedidos input[name="valor_total"]').val(),
-                    0,
-                    $('#formulario_pageFormPedidos textarea[name="observacao"]').val(),
-                    $('#formulario_pageFormPedidos input[name="id"]').val()
-                ]
-            }
+                //$('.dropdown').off('click');
+                //$('.dropdown').on('click', app.dropdownToggle);
 
-            app.saveRegister(pedidos, params, function (id) {
-                db.transaction(function (tx) {
-                    var sql = "DELETE FROM pedidos_itens WHERE fk_id_pedido = " + id;
-                    tx.executeSql(sql, [], function () {
-                        $.each(pedidos.pedidoItens, function (index, val) {
-                            db.transaction(function (tx) {
-                                valor_total = val.quantidade * val.valor_unitario;
-                                tx.executeSql("INSERT INTO pedidos_itens (fk_id_pedido, fk_id_produto, valor_unitario, quantidade, valor_total) VALUES (" + id + ", " + val.id + ", " + val.valor_unitario + ", " + val.quantidade + ", " + valor_total + ")", [], function () {
-                                    $('#listviewPedidos li .editarPedido').off('tap');
-                                    $('#listviewPedidos .listaAcao').off('tap');
-                                    $('#popupAcoesPedidos .acaoEstoque').off('tap');
-                                    pedidos.loadRegister();
-                                });
-                            }, app.transactionError);
-                        });
-                    });
-                }, app.transactionError);
-            });
-        });
+                //$('.btn_editar_produtos').off('click');
+                //$('.btn_editar_produtos').on('click', produtos.populateFormularioProduto);
 
-        $('#page_localizaProdutoPedido').on('pageshow', function () {
-            app.getRegisters(produtos, {order: 'produto ASC'}, function (resultArray) {
-                $('#listviewLocalizarProdutos').empty();
-                if (resultArray.length) {
-                    $.each(resultArray, function (index, val) {
-                        $('#listviewLocalizarProdutos').append('<li><a href="#page_adicionaItemPedido" class="adicionarProduto" id="' + val.id + '" indexArray="' + index + '"><h2>' + val.produto + '</h2><p>Estoque: ' + val.estoque + '</p></a></li>');
-                    });
-                    $("#listviewLocalizarProdutos").listview('refresh');
-                    $('#listviewLocalizarProdutos .adicionarProduto').on('tap', function () {
-                        indexArray = $(this).attr('indexArray');
-                        $('#formulario_pageAdicionaItemPedido input[name="id"]').val(resultArray[indexArray].id);
-                        $('#formulario_pageAdicionaItemPedido input[name="produto"]').val(resultArray[indexArray].produto);
-                        $('#div_nomeProdutoPageAdicionaItemPedido').html('<strong>' + resultArray[indexArray].produto + '</strong>');
-                        $('#formulario_pageAdicionaItemPedido input[name="valor_unitario"]').val(resultArray[indexArray].valor_venda);
-                    });
-                }
-            });
-        });
+                $('.actionPopulateClientes').off('click');
+                $('.actionPopulateClientes').on('click', pedidos.populateSelectClientes);
 
-        $('#btn_voltar_pageAdicionaItemPedido').on('tap', function () {
-            pedidos.rezetaPageAdicionaItem();
-        });
 
-        $('#btn_concluir_pageAdicionaItemPedido').on('tap', function () {
-            if ($('#formulario_pageAdicionaItemPedido input[name="indexArray"]').val() != '') {
-                indexArray = $('#formulario_pageAdicionaItemPedido input[name="indexArray"]').val();
+                //$('.btn_deletar_produtos').off('click');
+                //$('.btn_deletar_produtos').on('click', produtos.deleteProduto);
+
             } else {
-                indexArray = pedidos.pedidoItens.length;
+                $('#listviewPedidos').append('<li>Nenhum registro localizado no momento.</li>');
             }
-
-            pedidos.pedidoItens[indexArray] = {
-                id: $('#formulario_pageAdicionaItemPedido input[name="id"]').val(),
-                produto: $('#formulario_pageAdicionaItemPedido input[name="produto"]').val(),
-                valor_unitario: $('#formulario_pageAdicionaItemPedido input[name="valor_unitario"]').val(),
-                quantidade: $('#formulario_pageAdicionaItemPedido input[name="quantidade"]').val()
+            if (typeof callback == 'function') {
+                callback();
             }
-            pedidos.loadItensPedido();
-            pedidos.rezetaPageAdicionaItem();
         });
     },
-    populateRegisterClientes: function (itemSelected) {
-        app.getRegisters(clientes, {order: 'nome ASC'}, function (resultArray) {
-            $('#formulario_pageFormPedidos select option[value!=""]').detach();
+    populateSelectClientes: function () {
+        app.fetchRegisters({table: 'clientes', order: 'nome ASC'}, function (resultArray) {
+            $('#modelPedidos_formulario select option[value!=""]').detach();
             $.each(resultArray, function (index, val) {
-                if (itemSelected == val.id) {
+                if ($(this).attr('data-id') == val.id) {
                     selected = 'selected="selected"';
                 } else {
                     selected = '';
                 }
-                $("#formulario_pageFormPedidos select[name='clientes']").append('<option value="' + val.id + '" ' + selected + '>' + val.nome + '</option>');
+                $("#modelPedidos_formulario select[name='cliente']").append('<option value="' + val.id + '" ' + selected + '>' + val.nome + '</option>');
             });
-            if (typeof itemSelected != 'undefined') {
-                $("#formulario_pageFormPedidos select[name='clientes']").selectmenu("refresh");
+        });
+    },
+    loadListAdicionarProdutos: function (callback) {
+        if (pedidos.modeloAppendItens == '') {
+            pedidos.modeloAppendItens = $("#listviewPedidoEscolheItem").html();
+        }
+
+        app.fetchRegisters({table: 'produtos', order: 'produto ASC'}, function (resultArray) {
+            $('#listviewPedidoEscolheItem').empty();
+            if (resultArray.length) {
+                $.each(resultArray, function (index, val) {
+                    conteudoAppend = pedidos.modeloAppendItens.replace('{PRODUTO}', val.produto);
+                    conteudoAppend = conteudoAppend.replace(/{ID-REGISTRO}/g, val.id);
+                    $('#listviewPedidoEscolheItem').append(conteudoAppend);
+                });
+
+                $('.btn_openWindow_adicionarItem').off('click');
+                $('.btn_openWindow_adicionarItem').on('click', pedidos.action_itemEscolhido);
+
+            } else {
+                $('#listviewPedidoEscolheItem').append('<li>Nenhum registro localizado no momento.</li>');
+            }
+            if (typeof callback == 'function') {
+                callback();
             }
         });
     },
-    loadRegister: function (callback) {
-        db.transaction(function (tx) {
-            sql = "SELECT p.*, c.nome FROM pedidos AS p INNER JOIN clientes AS c ON p.fk_id_cliente = c.id ORDER BY p.id DESC";
-            tx.executeSql(sql, [], function (text, result) {
-                $('#listviewPedidos').empty();
-                if (result.rows.length) {
-
-                    for (var i = 0; i < result.rows.length; i++) {
-                        $('#listviewPedidos').append('<li><a href="#page_formPedidos" class="editarPedido" id="' + result.rows.item(i).id + '" indexArray="' + i + '"><h2>' + result.rows.item(i).nome + '</h2><p>Situa\u00e7\u00e3o: <strong>' + pedidos.getSituacaoPedido(result.rows.item(i).entregue) + '</strong></p></a><a href="#" class="listaAcao" id="' + result.rows.item(i).id + '" indexArray="' + i + '">Delete</a></li>');
-                    }
-
-                    $("#listviewPedidos").listview('refresh');
-
-                    var tapItem;
-                    $('#listviewPedidos .editarPedido').on('tap', function (event) {
-                        $this = this;
-                        setTimeout(function () {
-                            actionIndex = parseInt($($this).attr('indexArray'));
-                            tapItem = result.rows.item(actionIndex);
-                            pedidos.populateRegisterClientes(tapItem.fk_id_cliente);
-
-                            $('#formulario_pageFormPedidos input[name="id"]').val(tapItem.id);
-                            $('#formulario_pageFormPedidos input[name="valor_total"]').val(tapItem.valor_total);
-                            $('#formulario_pageFormPedidos textarea[name="observacao"]').val(tapItem.observacao);
-
-                            db.transaction(function (tx) {
-                                var sql = "SELECT pi.*, p.produto FROM pedidos_itens AS pi INNER JOIN produtos AS p ON p.id = pi.fk_id_produto WHERE pi.fk_id_pedido = " + tapItem.id;
-                                tx.executeSql(sql, [], function (text, result) {
-                                    pedidos.pedidoItens = [];
-                                    for (var i = 0; i < result.rows.length; i++) {
-                                        pedidos.pedidoItens[i] = {
-                                            id: result.rows.item(i).fk_id_produto,
-                                            produto: result.rows.item(i).produto,
-                                            valor_unitario: result.rows.item(i).valor_unitario,
-                                            quantidade: result.rows.item(i).quantidade
-                                        }
-                                    }
-                                    pedidos.loadItensPedido();
-                                });
-                            }, app.transactionError);
-                        }, 500);
-                    });
-
-                    $('#listviewPedidos .listaAcao').on('tap', function (event) {
-                        actionIndex = parseInt($(event.target).attr('indexArray'));
-                        tapItem = result.rows.item(actionIndex);
-
-                        if (tapItem.entregue == 0) {
-                            $('#popupAcoesPedidos .acaoEstoque').html('Lan\u00e7ar Estoque');
-                        } else {
-                            $('#popupAcoesPedidos .acaoEstoque').html('Extornar Estoque');
-                        }
-
-                        $("#popupAcoesPedidos").popup("open", {x: event.pageX, y: event.pageY});
-                        return false;
-                    });
-
-                    $('#popupAcoesPedidos .acaoEstoque').on('tap', function () {
-                        $("#popupAcoesPedidos").popup("close");
-                        app.openLoader();
-
-                        db.transaction(function (tx) {
-                            var sql = "SELECT * FROM pedidos_itens WHERE fk_id_pedido = " + tapItem.id;
-                            tx.executeSql(sql, [], function (text, result) {
-                                for (var i = 0; i < result.rows.length; i++) {
-                                    quantidade = result.rows.item(i).quantidade;
-                                    sql = "SELECT * FROM produtos WHERE id = " + result.rows.item(i).fk_id_produto;
-                                    tx.executeSql(sql, [], function (text, result) {
-                                        estoqueAtual = result.rows.item(0).estoque;
-                                        if (tapItem.entregue == 0) {
-                                            // Caso a ação seja para executar entrega, então o estoque é retirado.
-                                            novoEstoque = estoqueAtual - quantidade;
-                                        } else {
-                                            // Caso a ação seja para extorna a entrega, entao o estoque é acrescido.
-                                            novoEstoque = estoqueAtual + quantidade;
-                                        }
-                                        sql = "UPDATE produtos SET estoque = " + novoEstoque + " WHERE id = " + result.rows.item(0).id;
-                                        tx.executeSql(sql);
-                                    });
-                                }
-                                if (tapItem.entregue == 0) {
-                                    entregue = 1;
-
-                                } else {
-                                    entregue = 0;
-                                }
-                                sql = "UPDATE pedidos SET entregue = " + entregue + " WHERE id = " + tapItem.id;
-                                tx.executeSql(sql, [], function (text, result) {
-                                    $('#listviewPedidos li .editarPedido').off('tap');
-                                    $('#listviewPedidos .listaAcao').off('tap');
-                                    $('#popupAcoesPedidos .acaoEstoque').off('tap');
-                                    pedidos.loadRegister(app.closeLoader());
-                                });
-                            });
-
-                        });
-                    });
-
-                } else {
-                    $('#listviewPedidos').append('<li>Nenhum registro localizado no momento.</li>');
-                }
-                if (typeof callback == 'function') {
-                    callback();
-                }
-            });
-        }, app.transactionError);
-
-    },
-    loadItensPedido: function () {
-        $('#listview_itensPedido').empty();
-        total_produtos = 0.00;
-        if (pedidos.pedidoItens.length) {
-            $.each(pedidos.pedidoItens, function (index, val) {
-                valor_total = val.valor_unitario * val.quantidade;
-                total_produtos = total_produtos + valor_total;
-                $('#listview_itensPedido').append('<li><a href="#page_adicionaItemPedido" class="editarItemPedido" id="' + val.id + '" indexArray="' + index + '"><h2>' + val.produto + '</h2> <p>R$ ' + val.valor_unitario + ' X ' + val.quantidade + ' = R$ ' + valor_total + '</p></a><a href="#" class="ui-icon-delete deleteItemPedido" id="' + val.id + '" indexArray="' + index + '">Delete</a></li>');
-            });
-        } else {
-            $('#listview_itensPedido').append('<li>Nenhum Item</li>');
+    loadListPedidoItens: function () {
+        if (pedidos.modeloItensPedido == '') {
+            pedidos.modeloItensPedido = $("#listviewItensDoPedido").html();
         }
-        $("#listview_itensPedido").listview('refresh');
 
-        $('#formulario_pageFormPedidos input[name="valor_total"]').val(total_produtos);
+        $('#listviewItensDoPedido').empty();
+        if (pedidos.pedidoItens.length != 0) {
+            $.each(pedidos.pedidoItens, function (index, value) {
+                conteudoAppend = pedidos.modeloItensPedido.replace('{PRODUTO}', value.produto);
+                conteudoAppend = conteudoAppend.replace('{QUANTIDADE}', value.quantidade);
+                conteudoAppend = conteudoAppend.replace('{VALOR_UNITARIO}', value.valor_unitario);
+                conteudoAppend = conteudoAppend.replace('{VALOR_TOTAL}', value.valor_total);
+                conteudoAppend = conteudoAppend.replace(/{indexArray}/g, index);
+                $('#listviewItensDoPedido').append(conteudoAppend);
+            });
 
-        $('#listview_itensPedido .editarItemPedido').on('tap', function () {
-            indexArray = $(this).attr('indexArray');
-            $('#formulario_pageAdicionaItemPedido input[name="indexArray"]').val(indexArray);
-            $('#formulario_pageAdicionaItemPedido input[name="id"]').val(pedidos.pedidoItens[indexArray].id);
-            $('#formulario_pageAdicionaItemPedido input[name="produto"]').val(pedidos.pedidoItens[indexArray].produto);
-            $('#div_nomeProdutoPageAdicionaItemPedido').html(pedidos.pedidoItens[indexArray].produto);
-            $('#formulario_pageAdicionaItemPedido input[name="valor_unitario"]').val(pedidos.pedidoItens[indexArray].valor_unitario);
-            $('#formulario_pageAdicionaItemPedido input[name="quantidade"]').val(pedidos.pedidoItens[indexArray].quantidade);
-        });
+            $('.dropdown').off('click');
+            $('.dropdown').on('click', app.dropdownToggle);
 
-        $('#listview_itensPedido .deleteItemPedido').on('tap', function () {
-            indexArray = $(this).attr('indexArray');
-            pedidos.pedidoItens.splice(indexArray, 1);
-            pedidos.loadItensPedido();
-            return false;
-        });
-    },
-    getSituacaoPedido: function (situacao) {
-        if (situacao == 0) {
-            return 'Pendente';
+            $('.btn_deletar_itemDoPedido').off('click');
+            $('.btn_deletar_itemDoPedido').on('click', pedidos.removerItemPedido);
+
         } else {
-            return 'Entregue';
+            $('#listviewItensDoPedido').append('<li>Nenhum item adicionado no momento.</li>');
         }
     },
-    rezetaPagePedido: function () {
-        $('#formulario_pageFormPedidos input[name="valor_total"]').val('');
-        $('#formulario_pageFormPedidos textarea[name="observacao"]').val('');
+    action_itemEscolhido: function () {
+        history.pushState(null, null, '#formularioPedidoAdicionarItem');
+        app.displayContainer();
+
+        $this = this;
+
+        $.each(pedidos.pedidoItens, function (index, value) {
+            if (value.fk_id_produto == $($this).attr('data-id')) {
+                pedidos.findIndexItem = index;
+            }
+        });
+
+
+
+        if (pedidos.findIndexItem === false) {
+            app.findRegister('produtos', $(this).attr('data-id'), function (result) {
+                $('#modelPedidos_formularioAdicionarItem input[name="fk_id_produto"]').val(result.id);
+                $('#modelPedidos_formularioAdicionarItem input[name="produto"]').val(result.produto);
+                $('#modelPedidos_formularioAdicionarItem input[name="valor_unitario"]').val(app.formatPrice(result.valor_venda, 2));
+            });
+        } else {
+            $('#modelPedidos_formularioAdicionarItem input[name="fk_id_produto"]').val(pedidos.pedidoItens[pedidos.findIndexItem].fk_id_produto);
+            $('#modelPedidos_formularioAdicionarItem input[name="produto"]').val(pedidos.pedidoItens[pedidos.findIndexItem].produto);
+            $('#modelPedidos_formularioAdicionarItem input[name="valor_unitario"]').val(pedidos.pedidoItens[pedidos.findIndexItem].valor_unitario);
+            $('#modelPedidos_formularioAdicionarItem input[name="quantidade"]').val(pedidos.pedidoItens[pedidos.findIndexItem].quantidade);
+            $('#modelPedidos_formularioAdicionarItem input[name="valor_total"]').val(pedidos.pedidoItens[pedidos.findIndexItem].valor_total);
+        }
     },
-    rezetaPageAdicionaItem: function () {
-        $('#formulario_pageAdicionaItemPedido input[name="indexArray"]').val('');
-        $('#formulario_pageAdicionaItemPedido input[name="id"]').val('');
-        $('#formulario_pageAdicionaItemPedido input[name="produto"]').val('');
-        $('#div_nomeProdutoPageAdicionaItemPedido').empty();
-        $('#formulario_pageAdicionaItemPedido input[name="valor_unitario"]').val('');
-        $('#formulario_pageAdicionaItemPedido input[name="quantidade"]').val('');
+    removerItemPedido: function () {
+        pedidos.pedidoItens.splice($(this).attr('data-index'), 1);
+        pedidos.loadListPedidoItens();
+        app.showMensagem('Item removido com sucesso');
+        return false;
+    },
+    calculaQuantidadeAdicionar: function () {
+        if ($(this).val() != '') {
+            quantidade = parseInt($(this).val());
+            valorUnitario = app.formatPrice($('#calculaValorUnitario').val(), 1);
+            valorTotal = quantidade * valorUnitario;
+            $('#calculaValorTotal').val(app.formatPrice(valorTotal, 2));
+        } else {
+            $('#calculaValorTotal').val('0,00');
+        }
+    },
+    action_adicionarItemEscolhido: function () {
+        if (pedidos.findIndexItem === false) {
+            indexArray = pedidos.pedidoItens.length;
+        } else {
+            indexArray = pedidos.findIndexItem;
+        }
+        pedidos.pedidoItens[indexArray] = {
+            fk_id_produto: $('#modelPedidos_formularioAdicionarItem input[name="fk_id_produto"]').val(),
+            produto: $('#modelPedidos_formularioAdicionarItem input[name="produto"]').val(),
+            valor_unitario: $('#modelPedidos_formularioAdicionarItem input[name="valor_unitario"]').val(),
+            quantidade: $('#modelPedidos_formularioAdicionarItem input[name="quantidade"]').val(),
+            valor_total: $('#modelPedidos_formularioAdicionarItem input[name="valor_total"]').val()
+        }
+        pedidos.loadListPedidoItens();
+        pedidos.findIndexItem = false;
+        $('#modelPedidos_formularioAdicionarItem input').each(function () {
+            $(this).val('');
+        });
+        window.history.go(-2);
+        return false;
+    },
+    rezeteFormularioPedido: function () {
+        $('#modelPedidos_formulario input').each(function () {
+            $(this).val('');
+        });
+        pedidos.pedidoItens = [];
+        window.history.back();
+        return false;
+    },
+    rezeteFormularioPedidoAdicionarItem: function () {
+        $('#modelPedidos_formularioAdicionarItem input').each(function () {
+            $(this).val('');
+        });
+        pedidos.findIndexItem = false;
+        window.history.back();
+        return false;
     }
 }
