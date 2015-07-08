@@ -21,8 +21,9 @@ var pedidos = {
     salvarFormularioPedido: function () {
         params = {
             table: 'pedidos',
-            columns: ['fk_id_cliente', 'valor_total', 'entregue'],
+            columns: ['data_pedido', 'fk_id_cliente', 'valor_total', 'entregue'],
             values: [
+                $('#modelPedidos_formulario input[name="data_pedido"]').val(),
                 $('#modelPedidos_formulario select[name="cliente"]').val(),
                 app.formatPrice($('#modelPedidos_formulario input[name="valor_total"]').val(), 1),
                 '0'
@@ -32,9 +33,6 @@ var pedidos = {
         if ($('#modelPedidos_formulario input[name="id"]').val() != '') {
             params.columns.push('id');
             params.values.push($('#modelPedidos_formulario input[name="id"]').val());
-        } else {
-            params.columns.push('data_criado');
-            params.values.push(app.formatDate('AAAA-MM-DD'));
         }
 
 
@@ -73,6 +71,7 @@ var pedidos = {
         pedidos.populateSelectClientes(function () {
             app.findRegister('pedidos', $($this).attr('data-id'), function (result) {
                 $('#modelPedidos_formulario input[name="id"]').val(result.id);
+                $('#modelPedidos_formulario input[name="data_pedido"]').val(result.data_pedido);
                 $('#modelPedidos_formulario select[name="cliente"]').val(result.fk_id_cliente);
                 $('#modelPedidos_formulario input[name="valor_total"]').val(app.formatPrice(result.valor_total, 2));
             });
@@ -166,6 +165,7 @@ var pedidos = {
         return false;
     },
     actionOpenWindow_formularioPedido: function () {
+        $('#modelPedidos_formulario input[name="data_pedido"]').val(app.formatDate('AAAA-MM-DD'));
         pedidos.populateSelectClientes();
         pedidos.loadListPedidoItens();
     },

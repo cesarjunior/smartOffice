@@ -145,9 +145,9 @@
                                 </li>
                                 <li class="divider"></li>
                                 <li>
-                                    <a>
+                                    <a href="#historicoCliente" class="btn_openWindow_historicoCliente" data-id="{ID-REGISTRO}" data-nomeCliente="{NOME}">
                                         <i class="icon-truck"></i>
-                                        Histórico de entrega
+                                        Histórico de pedidos
                                     </a>
                                 </li>
                                 <li>
@@ -237,6 +237,28 @@
             </div>
         </div>
 
+        <div data-role="page" id="historicoCliente" class="pageContainer" style="display: none;">
+            <div class="headerContainer">
+                <div class="headerContainer-title" id="btn_voltar_historicoCliente">
+                    <i class="icon-chevron-left"></i>
+                    <h1></h1>
+                </div>
+                <div class="headerContainer-tools">
+                </div>
+            </div>
+            <div class="mainContainer">
+                <ul class="listview" id="listviewHistoricoCliente">
+                    <li>
+                        <div class="listConteudo">
+
+                            <h1>{NOME}</h1>
+                            Data do pedido: {DATA-PEDIDO}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
         <div data-role="page" id="produtos" class="pageContainer" style="display: none;">
             <div class="headerContainer">
                 <div class="headerContainer-title openMenuSlider">
@@ -254,6 +276,7 @@
                     <li>
                         <div class="listConteudo">
                             <h1>{PRODUTO}</h1>
+                            Estoque: {ESTOQUE}
                         </div>
                         <div class="iconeAcao">
                             <a href="#" class="icon-cog icon-large dropdown"></a>

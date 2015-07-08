@@ -1,10 +1,14 @@
 var clientes = {
     modeloAppend: '',
+    modeloHistoricoAppend: '',
     init: function () {
         $('#btn_iniciarModulo_clientes').on('click', this.carregarListaRegistros);
         $('#btn_salvar_formularioClientes').on('click', this.salvarFormularioClientes);
         $('#btn_cancelar_formularioClientes').on('click', this.rezeteFormularioClientes);
         $('#btn_voltar_formularioClientes').on('click', this.rezeteFormularioClientes);
+        $('#btn_voltar_historicoCliente').on('click', function () {
+            window.history.back();
+        });
     },
     salvarFormularioClientes: function () {
         validate = true;
@@ -41,7 +45,6 @@ var clientes = {
         return false;
     },
     carregarListaRegistros: function (callback) {
-        //app.openLoader();
         if (clientes.modeloAppend == '') {
             clientes.modeloAppend = $("#listviewClientes").html();
         }
@@ -51,7 +54,7 @@ var clientes = {
             $('#listviewClientes').empty();
             if (resultArray.length) {
                 $.each(resultArray, function (index, val) {
-                    conteudoAppend = clientes.modeloAppend.replace('{NOME}', val.nome);
+                    conteudoAppend = clientes.modeloAppend.replace(/{NOME}/g, val.nome);
                     conteudoAppend = conteudoAppend.replace('{DOCUMENTO}', val.documento ? val.documento : '');
                     conteudoAppend = conteudoAppend.replace('{TELEFONE}', val.telefone ? val.telefone : '');
                     conteudoAppend = conteudoAppend.replace(/{ID-REGISTRO}/g, val.id);
@@ -68,10 +71,37 @@ var clientes = {
                 $('.btn_deletar_cliente').off('click');
                 $('.btn_deletar_cliente').on('click', clientes.deleteCliente);
 
+                $('.btn_openWindow_historicoCliente').off('click');
+                $('.btn_openWindow_historicoCliente').on('click', clientes.carregarListaHistoricoRegistros);
+
             } else {
                 $('#listviewClientes').append('<li>Nenhum registro localizado no momento.</li>');
             }
-            //app.closeLoader();
+            if (typeof callback == 'function') {
+                callback();
+            }
+        });
+    },
+    carregarListaHistoricoRegistros: function (callback) {
+        if (clientes.modeloHistoricoAppend == '') {
+            clientes.modeloHistoricoAppend = $("#listviewHistoricoCliente").html();
+        }
+
+        $('#btn_voltar_historicoCliente h1').html($(this).attr('data-nomeCliente'));
+
+        sql = 'SELECT c.*, p.data_pedido FROM clientes AS c INNER JOIN pedidos AS p ON c.id = p.fk_id_cliente WHERE p.entregue = 1 AND c.id = ' + $(this).attr('data-id');
+        app.fetchRegisters(sql, function (resultArray) {
+            $('#listviewHistoricoCliente').empty();
+            if (resultArray.length) {
+                $.each(resultArray, function (index, val) {
+                    conteudoAppend = clientes.modeloHistoricoAppend.replace('{NOME}', val.nome);
+                    conteudoAppend = conteudoAppend.replace('{DATA-PEDIDO}', val.data_pedido ? app.formatDate('DD/MM/AAAA', val.data_pedido) : '');
+                    $('#listviewHistoricoCliente').append(conteudoAppend);
+                });
+
+            } else {
+                $('#listviewHistoricoCliente').append('<li>Nenhum registro localizado no momento.</li>');
+            }
             if (typeof callback == 'function') {
                 callback();
             }

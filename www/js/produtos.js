@@ -47,7 +47,7 @@ var produtos = {
             if (resultArray.length) {
                 $.each(resultArray, function (index, val) {
                     conteudoAppend = produtos.modeloAppend.replace(/{PRODUTO}/g, val.produto);
-                    //conteudoAppend = conteudoAppend.replace('{DOCUMENTO}', val.documento ? val.documento : '');
+                    conteudoAppend = conteudoAppend.replace('{ESTOQUE}', val.estoque ? val.estoque : '');
                     //conteudoAppend = conteudoAppend.replace('{TELEFONE}', val.telefone ? val.telefone : '');
                     conteudoAppend = conteudoAppend.replace(/{ID-REGISTRO}/g, val.id);
                     $('#listviewProdutos').append(conteudoAppend);
@@ -82,13 +82,13 @@ var produtos = {
 
         $('#btn_voltar_historicoProduto h1').html($(this).attr('data-nomeProduto'));
 
-        sql = "SELECT pi.quantidade, pe.data_criado, c.nome AS nomeCliente FROM pedidos_itens AS pi INNER JOIN pedidos AS pe ON pe.id = pi.fk_id_pedido INNER JOIN clientes AS c ON c.id = pe.fk_id_cliente WHERE pi.fk_id_produto = " + $(this).attr('data-id') + " AND pe.entregue = 1";
+        sql = "SELECT pi.quantidade, pe.data_pedido, c.nome AS nomeCliente FROM pedidos_itens AS pi INNER JOIN pedidos AS pe ON pe.id = pi.fk_id_pedido INNER JOIN clientes AS c ON c.id = pe.fk_id_cliente WHERE pi.fk_id_produto = " + $(this).attr('data-id') + " AND pe.entregue = 1";
         app.fetchRegisters(sql, function (resultArray) {
             $('#listviewHistoricoProduto').empty();
             if (resultArray.length) {
                 $.each(resultArray, function (index, val) {
                     conteudoAppend = produtos.modeloAppendHistorico.replace('{CLIENTE}', val.nomeCliente);
-                    conteudoAppend = conteudoAppend.replace('{DATA-PEDIDO}', val.data_criado ? val.data_criado : '');
+                    conteudoAppend = conteudoAppend.replace('{DATA-PEDIDO}', val.data_pedido ? app.formatDate('DD/MM/AAAA', val.data_pedido) : '');
                     conteudoAppend = conteudoAppend.replace('{QUANTIDADE-ENTREGUE}', val.quantidade ? val.quantidade : '');
                     $('#listviewHistoricoProduto').append(conteudoAppend);
                 });

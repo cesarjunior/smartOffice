@@ -12,7 +12,7 @@ var app = {
         db.transaction(function (tx) {
             tx.executeSql("CREATE TABLE IF NOT EXISTS clientes (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, documento TEXT, telefone TEXT, email TEXT, endereco TEXT, bairro TEXT, cidade TEXT, estado TEXT, cep TEXT, observacao TEXT, editado INTEGER, excluido INTEGER)", []);
             tx.executeSql("CREATE TABLE IF NOT EXISTS produtos (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, produto TEXT NOT NULL, codigo TEXT, valor_venda REAL NOT NULL, estoque INTEGER, observacao TEXT, editado INTEGER, excluido INTEGER)", []);
-            tx.executeSql("CREATE TABLE IF NOT EXISTS pedidos (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, fk_id_cliente INTEGER NOT NULL, desconto REAL, valor_total REAL, entregue INTEGER, observacao TEXT, data_criado TEXT, editado INTEGER, excluido INTEGER)", []);
+            tx.executeSql("CREATE TABLE IF NOT EXISTS pedidos (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, fk_id_cliente INTEGER NOT NULL, desconto REAL, valor_total REAL, entregue INTEGER, observacao TEXT, data_pedido TEXT, editado INTEGER, excluido INTEGER)", []);
             tx.executeSql("CREATE TABLE IF NOT EXISTS pedidos_itens (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, fk_id_pedido INTEGER NOT NULL, fk_id_produto INTEGER NOT NULL, valor_unitario REAL, quantidade INTEGER, valor_total REAL, editado INTEGER, excluido INTEGER)", []);
             //tx.executeSql("DROP TABLE clientes");
             //tx.executeSql("DROP TABLE produtos");
@@ -226,8 +226,8 @@ var app = {
                     });
                     sql = "UPDATE " + params.table + " SET " + set.toString() + " WHERE id = " + id;
                 }
-                console.log(sql);
-                console.log(params.values);
+                //console.log(sql);
+                //console.log(params.values);
                 tx.executeSql(sql, params.values, function (text, result) {
                     if (typeof callback == 'function') {
                         if (positionID == '-1') {
@@ -332,12 +332,12 @@ var app = {
                 mes = '0' + mes;
             }
         } else {
-            if (entrada.split('/').length) {
+            if (entrada.indexOf('/') != '-1') {
                 arrayData = entrada.split('/');
                 dia = arrayData[0];
                 mes = arrayData[1];
                 ano = arrayData[2];
-            } else if (entrada.split('-').length) {
+            } else if (entrada.indexOf('-') != '-1') {
                 arrayData = entrada.split('-');
                 dia = arrayData[2];
                 mes = arrayData[1];
@@ -346,6 +346,7 @@ var app = {
                 //Formato Inválido
             }
         }
+        
         retornaData = format.replace('DD', dia);
         retornaData = retornaData.replace('MM', mes);
         retornaData = retornaData.replace('AAAA', ano);
