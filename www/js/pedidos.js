@@ -6,42 +6,119 @@ var pedidos = {
     findIndexItem: false,
     init: function () {
         $('#btn_iniciarModulo_pedidos').on('click', this.carregarListaRegistros);
-        $('.btn_openWindow_formularioPedido').on('click', function () {
-            pedidos.populateSelectClientes();
-            pedidos.loadListPedidoItens();
-        });
+        $('.btn_openWindow_formularioPedido').on('click', pedidos.actionOpenWindow_formularioPedido);
+        $('#btn_salvar_formularioPedido').on('click', this.salvarFormularioPedido);
         $('#btn_cancelar_formularioPedido, #btn_voltar_formularioPedido').on('click', this.rezeteFormularioPedido);
-        $('#btn_cancelar_formularioPedidoAdicionarItem, #btn_voltar_formularioPedidoAdicionarItem').on('click', this.rezeteFormularioPedidoAdicionarItem);
         $('#btn_voltar_formularioPedidoEscolheItem').on('click', function () {
             window.history.back();
         });
         $('#btn_openWindow_escolherItem').on('click', this.loadListAdicionarProdutos);
         $('.maskMoney').on('change keyup', app.maskMoney);
         $('#calculaQuantidade').on('change keyup', this.calculaQuantidadeAdicionar);
+        $('#btn_cancelar_formularioPedidoAdicionarItem, #btn_voltar_formularioPedidoAdicionarItem').on('click', this.rezeteFormularioPedidoAdicionarItem);
         $('#btn_salvar_formularioPedidoAdicionarItem').on('click', this.action_adicionarItemEscolhido);
+    },
+    salvarFormularioPedido: function () {
+        params = {
+            table: 'pedidos',
+            columns: ['fk_id_cliente', 'valor_total', 'entregue'],
+            values: [
+                $('#modelPedidos_formulario select[name="cliente"]').val(),
+                app.formatPrice($('#modelPedidos_formulario input[name="valor_total"]').val(), 1),
+                '0'
+            ]
+        };
+
+        if ($('#modelPedidos_formulario input[name="id"]').val() != '') {
+            params.columns.push('id');
+            params.values.push($('#modelPedidos_formulario input[name="id"]').val());
+        } else {
+            params.columns.push('data_criado');
+            params.values.push(app.formatDate('AAAA-MM-DD'));
+        }
+
+
+        app.saveRegister(params, function (idPedido) {
+            if (pedidos.pedidoItens.length > 0) {
+                db.transaction(function (tx) {
+                    sql = "DELETE FROM pedidos_itens WHERE fk_id_pedido = " + idPedido;
+                    tx.executeSql(sql, [], function () {
+                        pedidos.carregarListaRegistros();
+                        $.each(pedidos.pedidoItens, function (index, value) {
+                            params = {
+                                table: 'pedidos_itens',
+                                columns: ['fk_id_pedido', 'fk_id_produto', 'valor_unitario', 'quantidade', 'valor_total'],
+                                values: [
+                                    idPedido,
+                                    value.fk_id_produto,
+                                    app.formatPrice(value.valor_unitario, 1),
+                                    value.quantidade,
+                                    app.formatPrice(value.valor_total, 1)
+                                ]
+                            };
+                            app.saveRegister(params);
+                        });
+                        app.showMensagem('Registro salvo com sucesso.');
+                        pedidos.rezeteFormularioPedido();
+                    });
+                }, app.transactionError);
+            }
+
+        });
+
+        return false;
+    },
+    editarFormularioPedido: function () {
+        $this = this;
+        pedidos.populateSelectClientes(function () {
+            app.findRegister('pedidos', $($this).attr('data-id'), function (result) {
+                $('#modelPedidos_formulario input[name="id"]').val(result.id);
+                $('#modelPedidos_formulario select[name="cliente"]').val(result.fk_id_cliente);
+                $('#modelPedidos_formulario input[name="valor_total"]').val(app.formatPrice(result.valor_total, 2));
+            });
+            sql = 'SELECT pi.*, p.produto FROM pedidos_itens AS pi INNER JOIN produtos AS p ON p.id = pi.fk_id_produto WHERE fk_id_pedido = ' + $($this).attr('data-id') + ' ORDER BY pi.id ASC';
+            app.fetchRegisters(sql, function (resultArray) {
+                pedidos.pedidoItens = [];
+                for (i = 0; i < resultArray.length; i++) {
+                    pedidos.pedidoItens[i] = {
+                        fk_id_produto: resultArray[i].fk_id_produto,
+                        produto: resultArray[i].produto,
+                        quantidade: resultArray[i].quantidade,
+                        valor_unitario: app.formatPrice(resultArray[i].valor_unitario, 2),
+                        valor_total: app.formatPrice(resultArray[i].valor_total, 2)
+                    };
+
+                }
+                pedidos.loadListPedidoItens();
+            });
+        });
     },
     carregarListaRegistros: function (callback) {
         if (pedidos.modeloAppend == '') {
             pedidos.modeloAppend = $("#listviewPedidos").html();
         }
-        sql = "SELECT p.*, c.nome FROM pedidos AS p INNER JOIN clientes AS c ON p.fk_id_cliente = c.id ORDER BY p.id DESC";
+        sql = "SELECT p.*, c.id AS idCliente, c.nome FROM pedidos AS p INNER JOIN clientes AS c ON p.fk_id_cliente = c.id ORDER BY p.id DESC";
         app.fetchRegisters(sql, function (resultArray) {
             $('#listviewPedidos').empty();
             if (resultArray.length) {
                 $.each(resultArray, function (index, val) {
                     conteudoAppend = pedidos.modeloAppend.replace('{CLIENTE}', val.nome);
+                    conteudoAppend = conteudoAppend.replace('{SITUACAO}', val.entregue == '0' ? 'Pendente' : 'Entregue');
+                    conteudoAppend = conteudoAppend.replace('{EXECUTAR_ESTOQUE}', val.entregue == '0' ? 'Efetivar entrega' : 'Extornar entrega');
                     conteudoAppend = conteudoAppend.replace(/{ID-REGISTRO}/g, val.id);
+                    conteudoAppend = conteudoAppend.replace(/{FK-ID-CLIENTE}/g, val.idCliente);
                     $('#listviewPedidos').append(conteudoAppend);
                 });
 
-                //$('.dropdown').off('click');
-                //$('.dropdown').on('click', app.dropdownToggle);
+                $('.dropdown').off('click');
+                $('.dropdown').on('click', app.dropdownToggle);
 
-                //$('.btn_editar_produtos').off('click');
-                //$('.btn_editar_produtos').on('click', produtos.populateFormularioProduto);
+                $('.btn_editar_pedidos').off('click');
+                $('.btn_editar_pedidos').on('click', pedidos.editarFormularioPedido);
 
-                $('.actionPopulateClientes').off('click');
-                $('.actionPopulateClientes').on('click', pedidos.populateSelectClientes);
+                $('.btn_executarEstoque').off('click');
+                $('.btn_executarEstoque').on('click', pedidos.executarEstoque);
+
 
 
                 //$('.btn_deletar_produtos').off('click');
@@ -55,17 +132,52 @@ var pedidos = {
             }
         });
     },
-    populateSelectClientes: function () {
+    executarEstoque: function () {
+        app.findRegister('pedidos', $(this).attr('data-id'), function (resultPedido) {
+            app.fetchRegisters({table: 'pedidos_itens', where: 'fk_id_pedido = ' + resultPedido.id}, function (resultItens) {
+                $.each(resultItens, function (index, value) {
+                    db.transaction(function (tx) {
+                        if (resultPedido.entregue == '0') {
+                            entregue = '1';
+                            msg = 'Entrega efetivada com sucesso.';
+                            tx.executeSql('UPDATE produtos SET estoque = estoque - ' + parseInt(value.quantidade) + ' WHERE id = ' + value.fk_id_produto, []);
+                        } else {
+                            entregue = '0';
+                            msg = 'Entrega extornada com sucesso';
+                            tx.executeSql('UPDATE produtos SET estoque = estoque + ' + parseInt(value.quantidade) + ' WHERE id = ' + value.fk_id_produto, []);
+                        }
+                    }, app.transactionError);
+                });
+                entregue = resultPedido.entregue == '0' ? '1' : '0';
+                params = {
+                    table: 'pedidos',
+                    columns: ['id', 'entregue'],
+                    values: [
+                        resultPedido.id,
+                        entregue
+                    ]
+                };
+                app.saveRegister(params, function () {
+                    app.showMensagem('Lançamento executado com sucesso.');
+                    pedidos.carregarListaRegistros();
+                });
+            });
+        });
+        return false;
+    },
+    actionOpenWindow_formularioPedido: function () {
+        pedidos.populateSelectClientes();
+        pedidos.loadListPedidoItens();
+    },
+    populateSelectClientes: function (callback) {
         app.fetchRegisters({table: 'clientes', order: 'nome ASC'}, function (resultArray) {
             $('#modelPedidos_formulario select option[value!=""]').detach();
             $.each(resultArray, function (index, val) {
-                if ($(this).attr('data-id') == val.id) {
-                    selected = 'selected="selected"';
-                } else {
-                    selected = '';
-                }
-                $("#modelPedidos_formulario select[name='cliente']").append('<option value="' + val.id + '" ' + selected + '>' + val.nome + '</option>');
+                $("#modelPedidos_formulario select[name='cliente']").append('<option value="' + val.id + '">' + val.nome + '</option>');
             });
+            if (typeof callback == 'function') {
+                callback();
+            }
         });
     },
     loadListAdicionarProdutos: function (callback) {
@@ -99,7 +211,9 @@ var pedidos = {
         }
 
         $('#listviewItensDoPedido').empty();
+        valor_total = 0.00;
         if (pedidos.pedidoItens.length != 0) {
+
             $.each(pedidos.pedidoItens, function (index, value) {
                 conteudoAppend = pedidos.modeloItensPedido.replace('{PRODUTO}', value.produto);
                 conteudoAppend = conteudoAppend.replace('{QUANTIDADE}', value.quantidade);
@@ -107,6 +221,7 @@ var pedidos = {
                 conteudoAppend = conteudoAppend.replace('{VALOR_TOTAL}', value.valor_total);
                 conteudoAppend = conteudoAppend.replace(/{indexArray}/g, index);
                 $('#listviewItensDoPedido').append(conteudoAppend);
+                valor_total = parseFloat(valor_total) + parseFloat(app.formatPrice(value.valor_total, 1));
             });
 
             $('.dropdown').off('click');
@@ -118,6 +233,8 @@ var pedidos = {
         } else {
             $('#listviewItensDoPedido').append('<li>Nenhum item adicionado no momento.</li>');
         }
+
+        $('#modelPedidos_formulario input[name="valor_total"]').val(app.formatPrice(valor_total, 2));
     },
     action_itemEscolhido: function () {
         history.pushState(null, null, '#formularioPedidoAdicionarItem');

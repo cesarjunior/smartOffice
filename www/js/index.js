@@ -9,12 +9,11 @@ var app = {
         $(window).on('popstate', this.displayContainer);
         $('.content-toggle').on('click', this.toggleContent);
         $('.dropdown').on('click', this.dropdownToggle);
-
         db.transaction(function (tx) {
             tx.executeSql("CREATE TABLE IF NOT EXISTS clientes (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, documento TEXT, telefone TEXT, email TEXT, endereco TEXT, bairro TEXT, cidade TEXT, estado TEXT, cep TEXT, observacao TEXT, editado INTEGER, excluido INTEGER)", []);
-            tx.executeSql("CREATE TABLE IF NOT EXISTS produtos (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, produto TEXT NOT NULL, valor_venda REAL NOT NULL, estoque INTEGER, observacao TEXT, editado INTEGER, excluido INTEGER)", []);
-            tx.executeSql("CREATE TABLE IF NOT EXISTS pedidos (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, fk_id_cliente INTEGER NOT NULL, desconto REAL, valor_total REAL, entregue INTEGER, observacao TEXT, editado INTEGER, excluido INTEGER)", []);
-            //tx.executeSql("CREATE TABLE IF NOT EXISTS pedidos_itens (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, fk_id_pedido INTEGER NOT NULL, fk_id_produto INTEGER NOT NULL, valor_unitario REAL, quantidade INTEGER, valor_total REAL)", []);
+            tx.executeSql("CREATE TABLE IF NOT EXISTS produtos (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, produto TEXT NOT NULL, codigo TEXT, valor_venda REAL NOT NULL, estoque INTEGER, observacao TEXT, editado INTEGER, excluido INTEGER)", []);
+            tx.executeSql("CREATE TABLE IF NOT EXISTS pedidos (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, fk_id_cliente INTEGER NOT NULL, desconto REAL, valor_total REAL, entregue INTEGER, observacao TEXT, data_criado TEXT, editado INTEGER, excluido INTEGER)", []);
+            tx.executeSql("CREATE TABLE IF NOT EXISTS pedidos_itens (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, fk_id_pedido INTEGER NOT NULL, fk_id_produto INTEGER NOT NULL, valor_unitario REAL, quantidade INTEGER, valor_total REAL, editado INTEGER, excluido INTEGER)", []);
             //tx.executeSql("DROP TABLE clientes");
             //tx.executeSql("DROP TABLE produtos");
             //tx.executeSql("DROP TABLE pedidos");
@@ -23,8 +22,7 @@ var app = {
     },
     displayContainer: function () {
         var hashTag = (window.location.hash == '') ? '#dashboard' : window.location.hash;
-
-        $('.pageContainer').fadeOut();
+        $('.pageContainer').hide();
         $(hashTag).fadeIn('slow');
     },
     showMensagem: function (msg) {
@@ -41,14 +39,12 @@ var app = {
                 });
             }, 2000);
         });
-
         return this;
     },
     toggleSlider: function (action) {
         // create menu variables
         var slideMenu = $('#menuSlider');
         var positionLeft = "-325px";
-
         if (typeof action != 'string') {
             if (slideMenu.css('left') == positionLeft) {
                 action = 'open';
@@ -99,6 +95,7 @@ var app = {
         db = window.openDatabase("smartDB", "1.0", "Banco de Dados do smartOffice.", 200000);
     },
     transactionError: function (error) {
+        console.log(error.message);
         app.showMensagem('Msg de erro: ' + error.message + ', C�digo: ' + error.code)
     },
     fetchRegisters: function (params, callback) {
@@ -141,9 +138,8 @@ var app = {
                 }
 
                 sql = sql + ' FROM ' + params.table;
-
                 if (typeof params.where == 'string') {
-                    sql = sql + ' WHERE ' + params.where + "AND excluido = '0'";
+                    sql = sql + ' WHERE ' + params.where + " AND excluido = 0";
                 } else if (typeof params.where == 'array') {
                     sql = sql + ' WHERE ';
                     $.each(params.where, function (index, val) {
@@ -182,15 +178,15 @@ var app = {
     },
     findRegister: function (table, id, callback) {
         try {
-            sql = 'SELECT * FROM ' + table + ' WHERE id = ?';
+            sqlQuery = 'SELECT * FROM ' + table + ' WHERE id = ?';
             db.transaction(function (tx) {
-                tx.executeSql(sql, [id], function (text, result) {
+                //console.log(sqlQuery);
+                tx.executeSql(sqlQuery, [id], function (text, result) {
                     if (result.rows.length == 1) {
                         returnResult = result.rows.item(0);
                     } else {
                         throw 'Resultados inesperado para o metodo de consulta findRegister';
                     }
-
                     if (typeof callback == 'function') {
                         callback(returnResult);
                     }
@@ -210,10 +206,8 @@ var app = {
 
             params.columns.push('editado');
             params.values.push('1');
-
             params.columns.push('excluido');
             params.values.push('0');
-
             db.transaction(function (tx) {
                 positionID = params.columns.indexOf('id');
                 if (positionID == '-1') {
@@ -230,11 +224,10 @@ var app = {
                     $.each(params.columns, function (index, value) {
                         set.push(value + ' = ?');
                     });
-
                     sql = "UPDATE " + params.table + " SET " + set.toString() + " WHERE id = " + id;
                 }
-                //console.log(sql);
-
+                console.log(sql);
+                console.log(params.values);
                 tx.executeSql(sql, params.values, function (text, result) {
                     if (typeof callback == 'function') {
                         if (positionID == '-1') {
@@ -261,7 +254,7 @@ var app = {
 
             db.transaction(function (tx) {
                 sql = "UPDATE " + table + " SET excluido = 1, editado = 1 WHERE id = ?";
-                console.log(id);
+                //console.log(id);
                 tx.executeSql(sql, [id], function (text, result) {
                     if (typeof callback == 'function') {
                         callback();
@@ -276,7 +269,6 @@ var app = {
     maskMoney: function () {
         valor = $(this).val();
         valor = valor.replace(/\D/g, '');
-
         if (valor.length == 0) {
             valor = '000';
         } else {
@@ -306,21 +298,57 @@ var app = {
     },
     formatPrice: function (price, tipo) {
         if (tipo == 1) {
-            price = price.replace(',', '.');
+            price = price.toString().replace(',', '.');
         }
 
         if (tipo == 2) {
-            arrayPrice = price.toString().split('.');
-            if (arrayPrice.length == 2) {
-                if (arrayPrice[1].length == 1) {
-                    arrayPrice[1] = arrayPrice[1] + '0';
+            if (price != '') {
+                arrayPrice = price.toString().split('.');
+                if (arrayPrice.length == 2) {
+                    if (arrayPrice[1].length == 1) {
+                        arrayPrice[1] = arrayPrice[1] + '0';
+                    }
+                    price = arrayPrice[0] + ',' + arrayPrice[1];
+                } else {
+                    price = price + ',00';
                 }
-                price = arrayPrice[0] + ',' + arrayPrice[1];
             } else {
-                price = price + ',00';
+                price = '0,00';
             }
         }
 
         return price;
+    },
+    formatDate: function (format, entrada) {
+        if (!entrada) {
+            data = new Date();
+            dia = data.getDate();
+            mes = parseInt(data.getMonth()) + parseInt(1);
+            ano = data.getFullYear();
+            if (dia.toString().length == '1') {
+                dia = '0' + dia;
+            }
+            if (mes.toString().length == '1') {
+                mes = '0' + mes;
+            }
+        } else {
+            if (entrada.split('/').length) {
+                arrayData = entrada.split('/');
+                dia = arrayData[0];
+                mes = arrayData[1];
+                ano = arrayData[2];
+            } else if (entrada.split('-').length) {
+                arrayData = entrada.split('-');
+                dia = arrayData[2];
+                mes = arrayData[1];
+                ano = arrayData[0];
+            } else {
+                //Formato Inválido
+            }
+        }
+        retornaData = format.replace('DD', dia);
+        retornaData = retornaData.replace('MM', mes);
+        retornaData = retornaData.replace('AAAA', ano);
+        return retornaData;
     }
 }

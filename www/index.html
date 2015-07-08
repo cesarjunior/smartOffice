@@ -272,7 +272,7 @@
                                 </li>
                                 <li class="divider"></li>
                                 <li>
-                                    <a>
+                                    <a href="#historicoProduto" class="btn_openWindow_historicoProduto" data-id="{ID-REGISTRO}" data-nomeProduto="{PRODUTO}">
                                         <i class="icon-truck"></i>
                                         Histórico de saida
                                     </a>
@@ -306,6 +306,10 @@
                                 <input type="text" name="produto" class="required" />
                             </div>
                             <div class="form-row">
+                                <label>Código</label>
+                                <input type="text" name="codigo" />
+                            </div>
+                            <div class="form-row">
                                 <label>Preço de Venda</label>
                                 <input type="tel" name="valor_venda" id="precoVenda" />
                             </div>
@@ -320,6 +324,28 @@
                         </div>
                     </form>
                 </div>
+            </div>
+        </div>
+
+        <div data-role="page" id="historicoProduto" class="pageContainer" style="display: none;">
+            <div class="headerContainer">
+                <div class="headerContainer-title" id="btn_voltar_historicoProduto">
+                    <i class="icon-chevron-left"></i>
+                    <h1></h1>
+                </div>
+                <div class="headerContainer-tools">
+                </div>
+            </div>
+            <div class="mainContainer">
+                <ul class="listview" id="listviewHistoricoProduto">
+                    <li>
+                        <div class="listConteudo">
+                            <h1>{CLIENTE}</h1>
+                            <div>Data do pedido: {DATA-PEDIDO}</div>
+                            <div>Quantidade entregue: {QUANTIDADE-ENTREGUE}</div>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
 
@@ -340,12 +366,13 @@
                     <li>
                         <div class="listConteudo">
                             <h1>{CLIENTE}</h1>
+                            Situação: {SITUACAO}
                         </div>
                         <div class="iconeAcao">
                             <a href="#" class="icon-cog icon-large dropdown"></a>
                             <ul class="dropdown-menu left">
                                 <li>
-                                    <a href="#formularioPedido" class="btn_editar_pedido btn_openWindow_formularioPedido" data-id="{ID-REGISTRO}">
+                                    <a href="#formularioPedido" class="btn_editar_pedidos" data-id="{ID-REGISTRO}" data-fk_id_cliente="{FK-ID-CLIENTE}">
                                         <i class="icon-edit"></i>
                                         Editar
                                     </a>
@@ -354,6 +381,13 @@
                                     <a href="#pedidos" class="btn_deletar_pedido" data-id="{ID-REGISTRO}">
                                         <i class="icon-trash"></i>
                                         Deletar
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="#pedidos" class="btn_executarEstoque" data-id="{ID-REGISTRO}">
+                                        <i class="icon-truck"></i>
+                                        {EXECUTAR_ESTOQUE}
                                     </a>
                                 </li>
                             </ul>
@@ -380,6 +414,10 @@
                             <i class="icon-user">Dados do Pedido</i>
                         </div>
                         <div class="widgetPanel-content">
+                            <div class="form-row">
+                                <label>Data do pedido</label>
+                                <input type="date" name="data_pedido" />
+                            </div>
                             <div class="form-row">
                                 <label>Cliente</label>
                                 <select name="cliente">
@@ -413,6 +451,10 @@
                                     </div>
                                 </li>
                             </ul>
+                            <div class="form-row">
+                                <label>Total do Pedido</label>
+                                <input type="text" name="valor_total" disabled="disabled" />
+                            </div>
                         </div>
                         <div class="widgetPanel-footer">
                             <button class="buttons green" id="btn_salvar_formularioPedido"><i class="icon-ok"></i>Salvar</button>
