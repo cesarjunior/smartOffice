@@ -50,10 +50,10 @@
 
 body {
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-    color: #767676;
+    color: #767676; //#d0d1d5
     font-size: 17px !important;
     font-weight: 300;
-    background: #f9f9fa;
+    background: #e9eaed;
 }
 
 .clear {
