@@ -128,15 +128,6 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="listConteudo">
-
-
-                            <div class="divisaoDados left">
-                                <div class="cnpj"></div>
-                            </div>
-                            <div class="clear"></div>
-
-                        </div>
                         <div class="iconeAcao">
                             <a href="#" class="icon-chevron-down dropdown"></a>
                             <ul class="dropdown-menu left">
@@ -283,12 +274,22 @@
             <div class="mainContainer">
                 <ul class="listview" id="listviewProdutos">
                     <li>
-                        <div class="listConteudo">
-                            <h1>{PRODUTO}</h1>
-                            Estoque: {ESTOQUE}
-                        </div>
+                        <table class="tableContentListview">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <small>#{ID-REGISTRO}</small>
+                                        <h1 class="title">{PRODUTO}</h1>
+                                        <small>Estoque: {ESTOQUE}</small>
+                                    </td>
+                                    <td>
+                                        <small></small>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                         <div class="iconeAcao">
-                            <a href="#" class="icon-cog icon-large dropdown"></a>
+                            <a href="#" class="icon-chevron-down dropdown"></a>
                             <ul class="dropdown-menu left">
                                 <li>
                                     <a href="#formularioProduto" class="btn_editar_produtos" data-id="{ID-REGISTRO}">
