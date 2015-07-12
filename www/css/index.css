@@ -75,6 +75,11 @@ h1, h2, h3 {
     font-weight: 300;
 }
 
+small {
+    font-size: 15px;
+    color: #9faeb6;
+}
+
 .menuSlider {
     position: fixed;
     width: 300px;
