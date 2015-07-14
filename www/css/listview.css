@@ -16,11 +16,33 @@
     position: relative;
 }
 
-.listview .title {
+.listview-header {
+    height: 40px;
+    border-bottom: 1px solid #fbfbfb;
+    margin-bottom: 10px;
+}
+
+.listview-header .title {
+    float: left;
+    height: 40px;
+    line-height: 40px;
+}
+
+.listview-header .title h1 {
     color: #3b4968;
-    padding: 5px 0;
-    font-weight: 400;
-    font-size: 20px;
+    font-weight: 500;
+    font-size: 22px;
+}
+
+.listview-header .tools {
+    float: right;
+    height: 40px;
+    line-height: 40px;
+}
+
+.listview-header .tools a {
+    color: #d0d1d5;
+    font-size: 13px;
 }
 
 .listview .tableContentListview td {
@@ -48,9 +70,4 @@
     position: absolute;
     top: 6px;
     right: 12px;
-}
-
-.iconeAcao a {
-    color: #d0d1d5;
-    font-size: 13px;
 }

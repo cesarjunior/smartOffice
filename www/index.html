@@ -114,12 +114,45 @@
             <div class="mainContainer">
                 <ul class="listview" id="listviewClientes">
                     <li>
+                        <div class="listview-header">
+                            <div class="title">
+                                <h1>{NOME}</h1>
+                            </div>
+                            <div class="tools">
+                                <a href="#" class="icon-chevron-down dropdown"></a>
+                                <ul class="dropdown-menu left">
+                                    <li>
+                                        <a href="#formularioCliente" class="btn_editar_clientes" data-id="{ID-REGISTRO}">
+                                            <i class="icon-edit"></i>
+                                            Editar
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#clientes" class="btn_deletar_cliente" data-id="{ID-REGISTRO}">
+                                            <i class="icon-trash"></i>
+                                            Deletar
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a href="#historicoCliente" class="btn_openWindow_historicoCliente" data-id="{ID-REGISTRO}" data-nomeCliente="{NOME}">
+                                            <i class="icon-truck"></i>
+                                            Histórico de pedidos
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <i class="icon-money"></i>
+                                            Financeiro
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                         <table class="tableContentListview">
                             <tbody>
                                 <tr>
                                     <td>
-                                        <small>#{ID-REGISTRO}</small>
-                                        <h1 class="title">{NOME}</h1>
                                         <small>{DOCUMENTO}</small>
                                     </td>
                                     <td>
@@ -129,34 +162,7 @@
                             </tbody>
                         </table>
                         <div class="iconeAcao">
-                            <a href="#" class="icon-chevron-down dropdown"></a>
-                            <ul class="dropdown-menu left">
-                                <li>
-                                    <a href="#formularioCliente" class="btn_editar_clientes" data-id="{ID-REGISTRO}">
-                                        <i class="icon-edit"></i>
-                                        Editar
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#clientes" class="btn_deletar_cliente" data-id="{ID-REGISTRO}">
-                                        <i class="icon-trash"></i>
-                                        Deletar
-                                    </a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="#historicoCliente" class="btn_openWindow_historicoCliente" data-id="{ID-REGISTRO}" data-nomeCliente="{NOME}">
-                                        <i class="icon-truck"></i>
-                                        Histórico de pedidos
-                                    </a>
-                                </li>
-                                <li>
-                                    <a>
-                                        <i class="icon-money"></i>
-                                        Financeiro
-                                    </a>
-                                </li>
-                            </ul>
+
                         </div>
                     </li>
                 </ul>
