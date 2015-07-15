@@ -48,7 +48,7 @@ var produtos = {
                 $.each(resultArray, function (index, val) {
                     conteudoAppend = produtos.modeloAppend.replace(/{PRODUTO}/g, val.produto);
                     conteudoAppend = conteudoAppend.replace('{ESTOQUE}', val.estoque ? val.estoque : '');
-                    //conteudoAppend = conteudoAppend.replace('{TELEFONE}', val.telefone ? val.telefone : '');
+                    conteudoAppend = conteudoAppend.replace('{VALOR-VENDA}', val.valor_venda ? app.formatPrice(val.valor_venda, 2) : '');
                     conteudoAppend = conteudoAppend.replace(/{ID-REGISTRO}/g, val.id);
                     $('#listviewProdutos').append(conteudoAppend);
                 });

@@ -75,6 +75,10 @@ h1, h2, h3 {
     font-weight: 300;
 }
 
+p {
+    font-size: 15px;
+}
+
 small {
     font-size: 15px;
     color: #9faeb6;
@@ -201,7 +205,6 @@ small {
 
 .dropdown-menu {
     position: absolute;
-    top: 100%;
     left: 0;
     z-index: 1000;
     display: none;
