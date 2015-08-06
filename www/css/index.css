@@ -143,7 +143,6 @@ small {
 .headerContainer {
     background: #4977BC;
     height: 80px;
-    line-height: 80px;
     color: #fff;
     position: fixed;
     width: 100%;
@@ -152,24 +151,30 @@ small {
 
 .headerContainer > .headerContainer-title {
     float: left;
+    padding-left: 25px;
     cursor: pointer;
 }
 
-.headerContainer > .headerContainer-title a {
-    color: #fff;
-}
-
-.headerContainer > .headerContainer-title h1 {
-    padding-left: 25px;
-    color: #fff;
-    font-size: 30px;
+.headerContainer > .headerContainer-title .description {
+    font-family: 'Raleway';
+    font-size: 17px;
     font-weight: 300;
 }
 
-.headerContainer > .headerContainer-title i {
+.headerContainer > .headerContainer-title h1 {
+    color: #fff;
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.headerContainer > .headerContainer-title > i {
     position: absolute;
+    top: 34px;
+    left: 5px;
+}
+
+.headerContainer > .openMenuSlider > i {
     left: 0px;
-    line-height: 80px;
 }
 
 .headerContainer > .headerContainer-tools {

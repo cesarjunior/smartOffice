@@ -87,7 +87,7 @@ var clientes = {
             clientes.modeloHistoricoAppend = $("#listviewHistoricoCliente").html();
         }
 
-        $('#btn_voltar_historicoCliente h1').html($(this).attr('data-nomeCliente'));
+        $('#btn_voltar_historicoCliente .description').html($(this).attr('data-nomeCliente'));
 
         sql = 'SELECT c.*, p.data_pedido FROM clientes AS c INNER JOIN pedidos AS p ON c.id = p.fk_id_cliente WHERE p.entregue = 1 AND c.id = ' + $(this).attr('data-id');
         app.fetchRegisters(sql, function (resultArray) {
