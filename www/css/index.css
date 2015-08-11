@@ -219,7 +219,7 @@ small {
     min-width: 160px;
     padding: 5px 0;
     margin: 2px 0 0;
-    font-size: 14px;
+    font-size: 15px;
     text-align: left;
     list-style: none;
     background-color: #fff;
@@ -234,7 +234,7 @@ small {
 
 .dropdown-menu.left {
     left: auto;
-    right: 0px;
+    right: 10px;
 }
 
 .dropdown-menu > li > a {

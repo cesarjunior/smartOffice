@@ -38,11 +38,12 @@
     float: right;
     height: 40px;
     line-height: 40px;
+    padding-right: 10px;
 }
 
-.listview-header .tools a {
-    color: #d0d1d5;
-    font-size: 13px;
+.listview-header .tools > a {
+    color: #767676;
+    font-size: 16px;
 }
 
 .listview-body {
