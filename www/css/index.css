@@ -145,9 +145,7 @@ small {
     background: #4977BC;
     height: 80px;
     color: #fff;
-    position: fixed;
     width: 100%;
-    z-index: 1010;
 }
 
 .headerContainer > .headerContainer-title {
@@ -164,7 +162,7 @@ small {
 
 .headerContainer > .headerContainer-title h1 {
     color: #fff;
-    font-size: 30px;
+    font-size: 27px;
     font-weight: 400;
 }
 
@@ -201,12 +199,15 @@ small {
 }
 
 .pageContainer {
+    position: fixed;
     height: calc(100% - 10px);
+    width: 100%;
 }
 
 .pageContainer > .mainContainer {
-    padding: 90px 10px 0px 10px;
+    padding: 10px 0px 0px 0px;
     height: calc(100% - 80px);
+    overflow: auto;
 }
 
 .dropdown-menu {

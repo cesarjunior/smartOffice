@@ -4,9 +4,9 @@
 */
 
 .listview {
-    border: 1px solid #d0d1d5;
+    border-top: 1px solid #d0d1d5;
+    border-bottom: 1px solid #d0d1d5;
     background-color: #fff;
-    -webkit-border-radius: 3px;
 }
 
 .listview > li {
