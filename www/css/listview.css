@@ -5,26 +5,20 @@
 
 .listview {
     border-top: 1px solid #d0d1d5;
-    border-bottom: 1px solid #d0d1d5;
     background-color: #fff;
 }
 
 .listview > li {
-    padding: 5px 10px;
+    padding: 15px 10px;
     border-bottom: 1px solid #d0d1d5;
-    min-height: 60px;
 }
 
 .listview-header {
-    height: 40px;
     //border-bottom: 1px solid #fbfbfb;
-    margin-bottom: 10px;
 }
 
 .listview-header .title {
     float: left;
-    height: 40px;
-    line-height: 40px;
 }
 
 .listview-header .title h1 {
@@ -36,8 +30,6 @@
 .listview-header .tools {
     position: relative;
     float: right;
-    height: 40px;
-    line-height: 40px;
     padding-right: 10px;
 }
 
@@ -47,12 +39,20 @@
 }
 
 .listview-body {
-    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
-.listview .tableContentListview td {
+.listview .listview-tableDescription td {
     vertical-align: middle;
 }
-.listview .tableContentListview td:last-child {
+
+.listview .listview-tableDescription td:last-child {
     text-align: right;
+}
+
+.listview .listview-tableDescription ul {
+    line-height: 25px;
+    border-left: 2px solid #767676;
+    padding-left: 10px;
+    color: #767676;
 }

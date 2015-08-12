@@ -166,8 +166,9 @@
                                 </ul>
                             </div>
                         </div>
+                        <div class="clear"></div>
                         <div class="listview-body">
-                            <table class="tableContentListview">
+                            <table class="listview-tableDescription">
                                 <tbody>
                                     <tr>
                                         <td>
@@ -350,35 +351,17 @@
                                 </ul>
                             </div>
                         </div>
+                        <div class="clear"></div>
                         <div class="listview-body">
-                            <table class="tableContentListview">
+                            <table class="listview-tableDescription">
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <div style="
-                                                 border-left: 2px solid #767676;
-                                                 padding-left: 10px;
-                                                 line-height: 25px;
-                                                 "><label style="
-                                                     /* color: #767676; */
-                                                     font-weight: bold;
-                                                     ">Código:</label> 00000000</div>
-                                            <div style="
-                                                 border-left: 2px solid #767676;
-                                                 padding-left: 10px;
-                                                 line-height: 25px;
-                                                 "><label style="
-                                                     /* color: #767676; */
-                                                     font-weight: bold;
-                                                     ">Estoque:</label> {ESTOQUE}</div>
-                                            <div style="
-                                                 border-left: 2px solid #767676;
-                                                 padding-left: 10px;
-                                                 line-height: 25px;
-                                                 "><label style="
-                                                     /* color: #767676; */
-                                                     font-weight: bold;
-                                                     ">Unidade:</label> 18Lts</div>
+                                            <ul>
+                                                <li><strong>Código: </strong> 00000000</li>
+                                                <li><strong>Estoque </strong> {ESTOQUE}</li>
+                                                <li><strong>Unidade: </strong> UN</li>
+                                            </ul>
                                         </td>
                                         <td>
                                             <p><strong>Preço de venda</strong></p>
@@ -529,18 +512,22 @@
                                 </ul>
                             </div>
                         </div>
-                        <table class="tableContentListview">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <small>Situação: {SITUACAO}</small>
-                                    </td>
-                                    <td>
-                                        <small>TOTAL<br>R$ 00,00</small>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="clear"></div>
+                        <div class="listview-body">
+                            <table class="listview-tableDescription">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <small>Situação: {SITUACAO}</small>
+                                        </td>
+                                        <td>
+                                            <small>TOTAL<br>R$ 00,00</small>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                     </li>
                 </ul>
             </div>
