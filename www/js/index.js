@@ -320,9 +320,19 @@ var app = {
         return price;
     },
     formatDate: function (format, entrada) {
+        var arrayDia = new Array(7);
+        arrayDia[0] = "Domingo";
+        arrayDia[1] = "Segunda-Feira";
+        arrayDia[2] = "Terça-Feira";
+        arrayDia[3] = "Quarta-Feira";
+        arrayDia[4] = "Quinta-Feira";
+        arrayDia[5] = "Sexta-Feira";
+        arrayDia[6] = "Sábado";
+        data = new Date();
+
         if (!entrada) {
-            data = new Date();
             dia = data.getDate();
+            diaExterso = arrayDia[data.getDay()];
             mes = parseInt(data.getMonth()) + parseInt(1);
             ano = data.getFullYear();
             if (dia.toString().length == '1') {
@@ -345,11 +355,25 @@ var app = {
             } else {
                 //Formato Inválido
             }
+
+            if (dia.indexOf('0') != '-1') {
+                diaNovo = dia.substr(1);
+            }
+
+            if (mes.indexOf('0') != '-1') {
+                mesNovo = mes.substr(1);
+                mesNovo = parseInt(mesNovo) - 1;
+            }
+
+            data.setDate(diaNovo);
+            data.setMonth(mesNovo);
+            diaExtenso = data.getDay();
         }
-        
+
         retornaData = format.replace('DD', dia);
         retornaData = retornaData.replace('MM', mes);
         retornaData = retornaData.replace('AAAA', ano);
+        retornaData = retornaData.replace('{DIAEXTENSO}', diaExterso);
         return retornaData;
     }
 }
