@@ -96,15 +96,15 @@ var pedidos = {
         if (pedidos.modeloAppend == '') {
             pedidos.modeloAppend = $("#listviewPedidos").html();
         }
-        sql = "SELECT p.*, c.id AS idCliente, c.nome FROM pedidos AS p INNER JOIN clientes AS c ON p.fk_id_cliente = c.id ORDER BY p.id DESC";
+        sql = "SELECT p.*, c.id AS idCliente, c.nome FROM pedidos AS p INNER JOIN clientes AS c ON p.fk_id_cliente = c.id ORDER BY p.data_pedido DESC";
         app.fetchRegisters(sql, function (resultArray) {
             $('#listviewPedidos').empty();
             if (resultArray.length) {
                 var dividerData;
                 $.each(resultArray, function (index, val) {
-                    if(dividerData != val.data_pedido) {
+                    if (dividerData != val.data_pedido) {
                         dividerData = val.data_pedido;
-                        $('#listviewPedidos').append('<li class="divider">'+app.formatDate('DD/MM/AAAA - {DIAEXTENSO}', val.data_pedido)+'</li>');
+                        $('#listviewPedidos').append('<li class="divider">' + app.formatDate('DD/MM/AAAA - {DIAEXTENSO}', val.data_pedido) + '</li>');
                     }
                     conteudoAppend = pedidos.modeloAppend.replace('{CLIENTE}', val.nome);
                     conteudoAppend = conteudoAppend.replace('{SITUACAO}', val.entregue == '0' ? 'Pendente' : 'Entregue');

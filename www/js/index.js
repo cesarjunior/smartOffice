@@ -356,12 +356,8 @@ var app = {
                 //Formato Inválido
             }
 
-            diaNovo = dia.replace('0', '');
-            mesNovo = parseInt(mes) - 1;
-            mesNovo = mesNovo.toString().replace('0', '');
-
-            data.setDate(diaNovo);
-            data.setMonth(mesNovo);
+            data.setDate(dia);
+            data.setMonth(parseInt(mes) - 1);
             diaExtenso = arrayDia[data.getDay()];
         }
 
