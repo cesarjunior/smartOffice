@@ -356,24 +356,19 @@ var app = {
                 //Formato Inválido
             }
 
-            if (dia.indexOf('0') != '-1') {
-                diaNovo = dia.substr(1);
-            }
-
-            if (mes.indexOf('0') != '-1') {
-                mesNovo = mes.substr(1);
-                mesNovo = parseInt(mesNovo) - 1;
-            }
+            diaNovo = dia.replace('0', '');
+            mesNovo = parseInt(mes) - 1;
+            mesNovo = mesNovo.toString().replace('0', '');
 
             data.setDate(diaNovo);
             data.setMonth(mesNovo);
-            diaExtenso = data.getDay();
+            diaExtenso = arrayDia[data.getDay()];
         }
 
         retornaData = format.replace('DD', dia);
         retornaData = retornaData.replace('MM', mes);
         retornaData = retornaData.replace('AAAA', ano);
-        retornaData = retornaData.replace('{DIAEXTENSO}', diaExterso);
+        retornaData = retornaData.replace('{DIAEXTENSO}', diaExtenso);
         return retornaData;
     }
 }

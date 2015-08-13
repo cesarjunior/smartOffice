@@ -100,7 +100,12 @@ var pedidos = {
         app.fetchRegisters(sql, function (resultArray) {
             $('#listviewPedidos').empty();
             if (resultArray.length) {
+                var dividerData;
                 $.each(resultArray, function (index, val) {
+                    if(dividerData != val.data_pedido) {
+                        dividerData = val.data_pedido;
+                        $('#listviewPedidos').append('<li class="divider">'+app.formatDate('DD/MM/AAAA - {DIAEXTENSO}', val.data_pedido)+'</li>');
+                    }
                     conteudoAppend = pedidos.modeloAppend.replace('{CLIENTE}', val.nome);
                     conteudoAppend = conteudoAppend.replace('{SITUACAO}', val.entregue == '0' ? 'Pendente' : 'Entregue');
                     conteudoAppend = conteudoAppend.replace('{EXECUTAR_ESTOQUE}', val.entregue == '0' ? 'Efetivar entrega' : 'Extornar entrega');
