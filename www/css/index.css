@@ -84,6 +84,8 @@ small {
     color: #9faeb6;
 }
 
+/* --------------------------------------------------- */
+
 .menuSlider {
     position: fixed;
     width: 300px;
@@ -123,6 +125,8 @@ small {
     text-decoration: none;
 }
 
+
+
 .containerAlerta {
     display: none;
     position: fixed;
@@ -140,6 +144,8 @@ small {
     padding: 0 10px;
     border-radius: 3px;
 }
+
+/* --------------------------------------------------- */
 
 .headerContainer {
     background: #4977BC;
@@ -209,6 +215,8 @@ small {
     overflow: auto;
 }
 
+/* --------------------------------------------------- */
+
 .dropdown-menu {
     position: absolute;
     left: 0;
@@ -253,4 +261,64 @@ small {
     overflow: hidden;
     background-color: #e5e5e5;
     border-bottom: 1px solid #fff;
+}
+
+/* --------------------------------------------------- */
+
+.tabs {
+    width: 100%;
+    display: inline-flex;
+}
+
+.tabs > .tabs-links {
+    width: 100%;
+    display: inline-block;
+    line-height: 45px;
+    text-align: center;
+    border-bottom: 2px solid #4977BC;
+    background-color: #FFF;
+}
+
+.tabs > .tabs-links li {
+    float: left;
+    width: 49.9%;
+    background-color: #fff;
+    border-right: 1px solid #eee;
+}
+
+.tabs > .tabs-links li:last-child {
+    width: 50%;
+    border-right: 0px;
+}
+
+.tabs > .tabs-links li.active {
+    border-bottom: 2px solid #4977BC
+}
+
+/* --------------------------------------------------- */
+
+.navigatePedidos {
+    width: 100%;
+    display: inline-flex;
+    background-color: #4977BC;
+    color: #FFFFFF;
+    line-height: 45px;
+    font-size: 20px;
+}
+
+.navigatePedidos > .directionLeft {
+    float: left;
+    text-align: right;
+    width: 30%;
+}
+
+.navigatePedidos > .directionRight {
+    float: left;
+    width: 30%;
+}
+
+.navigatePedidos > .titleDate {
+    float: left;
+    width: 40%;
+    text-align: center;
 }
