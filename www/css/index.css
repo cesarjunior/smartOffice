@@ -302,23 +302,23 @@ small {
     display: inline-flex;
     background-color: #4977BC;
     color: #FFFFFF;
-    line-height: 45px;
-    font-size: 20px;
+    line-height: 50px;
+    font-size: 25px;
 }
 
 .navigatePedidos > .directionLeft {
     float: left;
     text-align: right;
-    width: 30%;
+    width: 25%;
 }
 
 .navigatePedidos > .directionRight {
     float: left;
-    width: 30%;
+    width: 25%;
 }
 
 .navigatePedidos > .titleDate {
     float: left;
-    width: 40%;
+    width: 50%;
     text-align: center;
 }
