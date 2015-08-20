@@ -328,11 +328,25 @@ var app = {
         arrayDia[4] = "Quinta-Feira";
         arrayDia[5] = "Sexta-Feira";
         arrayDia[6] = "Sábado";
+
+        var arrayMes = new Array(12);
+        arrayMes[0] = "Janeiro";
+        arrayMes[1] = "Fevereiro";
+        arrayMes[2] = "Março";
+        arrayMes[3] = "Abril";
+        arrayMes[4] = "Maio";
+        arrayMes[5] = "Junho";
+        arrayMes[6] = "Julho";
+        arrayMes[7] = "Agosto";
+        arrayMes[8] = "Setembro";
+        arrayMes[9] = "Outubro";
+        arrayMes[10] = "Novembro";
+        arrayMes[11] = "Dezembro";
+
         data = new Date();
 
         if (!entrada) {
             dia = data.getDate();
-            diaExterso = arrayDia[data.getDay()];
             mes = parseInt(data.getMonth()) + parseInt(1);
             ano = data.getFullYear();
             if (dia.toString().length == '1') {
@@ -358,13 +372,16 @@ var app = {
 
             data.setDate(dia);
             data.setMonth(parseInt(mes) - 1);
-            diaExtenso = arrayDia[data.getDay()];
         }
+
+        diaExtenso = arrayDia[data.getDay()];
+        mesExtenso = arrayMes[data.getMonth()];
 
         retornaData = format.replace('DD', dia);
         retornaData = retornaData.replace('MM', mes);
         retornaData = retornaData.replace('AAAA', ano);
         retornaData = retornaData.replace('{DIAEXTENSO}', diaExtenso);
+        retornaData = retornaData.replace('{MESEXTENSO}', mesExtenso);
         return retornaData;
     }
 }

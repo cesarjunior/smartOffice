@@ -1,4 +1,5 @@
 var pedidos = {
+    perildoPedidos: '',
     modeloAppend: '',
     modeloAppendItens: '',
     modeloItensPedido: '',
@@ -17,6 +18,7 @@ var pedidos = {
         $('#calculaQuantidade').on('change keyup', this.calculaQuantidadeAdicionar);
         $('#btn_cancelar_formularioPedidoAdicionarItem, #btn_voltar_formularioPedidoAdicionarItem').on('click', this.rezeteFormularioPedidoAdicionarItem);
         $('#btn_salvar_formularioPedidoAdicionarItem').on('click', this.action_adicionarItemEscolhido);
+        $('.btn_change_perildoPedidos').on('click', this.action_changePerildoPedidos);
     },
     salvarFormularioPedido: function () {
         params = {
@@ -96,7 +98,14 @@ var pedidos = {
         if (pedidos.modeloAppend == '') {
             pedidos.modeloAppend = $("#listviewPedidos").html();
         }
-        sql = "SELECT p.*, c.id AS idCliente, c.nome FROM pedidos AS p INNER JOIN clientes AS c ON p.fk_id_cliente = c.id ORDER BY p.data_pedido DESC";
+
+        if (pedidos.perildoPedidos == '') {
+            pedidos.perildoPedidos = app.formatDate('AAAA-MM');
+        }
+
+        $('#tituloPerildoPedido').html(app.formatDate('{MESEXTENSO} - AAAA', pedidos.perildoPedidos + '-01'));
+
+        sql = "SELECT p.*, c.id AS idCliente, c.nome FROM pedidos AS p INNER JOIN clientes AS c ON p.fk_id_cliente = c.id WHERE p.data_pedido >= '" + pedidos.perildoPedidos + '-01' + "' AND p.data_pedido <= '" + pedidos.perildoPedidos + '-31' + "' ORDER BY p.data_pedido DESC";
         app.fetchRegisters(sql, function (resultArray) {
             $('#listviewPedidos').empty();
             if (resultArray.length) {
@@ -135,6 +144,38 @@ var pedidos = {
                 callback();
             }
         });
+    },
+    action_changePerildoPedidos: function () {
+        if (pedidos.perildoPedidos == '') {
+            pedidos.perildoPedidos = app.formatDate('AAAA-MM');
+        }
+        arrayDataPerildo = pedidos.perildoPedidos.split('-');
+        if ($(this).attr('data-direction') == 'left') {
+            mesPerildo = arrayDataPerildo[1] - 1;
+            anoPerildo = arrayDataPerildo[0];
+
+            if (mesPerildo < 1) {
+                anoPerildo = arrayDataPerildo[0] - 1;
+                mesPerildo = '12';
+            }
+
+        } else if ($(this).attr('data-direction') == 'right') {
+            mesPerildo = parseInt(arrayDataPerildo[1]) + 1;
+            anoPerildo = arrayDataPerildo[0];
+
+            if (mesPerildo > 12) {
+                anoPerildo = parseInt(arrayDataPerildo[0]) + 1;
+                mesPerildo = '01';
+            }
+        }
+        
+        if (mesPerildo.toString().length == 1) {
+            mesPerildo = '0' + mesPerildo;
+        }
+
+        pedidos.perildoPedidos = anoPerildo + '-' + mesPerildo;
+
+        pedidos.carregarListaRegistros();
     },
     executarEstoque: function () {
         app.findRegister('pedidos', $(this).attr('data-id'), function (resultPedido) {
